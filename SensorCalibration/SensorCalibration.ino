@@ -7,7 +7,11 @@
 #define GREEN 7
 #define BLUE 8
 
+// The total number of reads we want to output.
+#define TOTAL_READS 15000
+
 LSM303C myIMU;
+unsigned readsCounter = 0;
 
 void setup() {
     // Initialize serial connection and wait unti it is ready.
@@ -40,8 +44,17 @@ void setup() {
 }
 
 void loop() {
+    if (readsCounter < TOTAL_READS)
+        ++readsCounter;
+    else
+    {
+        SerialUSB.println("Done Reading!!!");
+        while (true);
+    }
+
     auto accelValue = myIMU.readAccelX();
-    if (not isnan(accelValue)) {
+    if (not isnan(accelValue))
+    {
         // Print x.
         SerialUSB.print(accelValue);
         SerialUSB.print(",");
