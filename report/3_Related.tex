@@ -1,0 +1,20 @@
+\section{Related Work}
+\label{sec:related}
+The iOS energy efficiency guide \cite{iOSEnergy} provides a high level view of
+how event-driven architectures can improve the energy efficiency of the iOS
+phone. Despite the fact that the material is geared toward iOS app development,
+the material is relevant becuase it applies generally to wireless systems, and
+thus inspires our motivation for implemening an event-driven architecture. More
+specifically, \cite{CargoNet} shows how an interrupt-driven architectures, a
+specific realization of an event-driven architecture, can lead to more power
+efficient and accurate WSNs, providing motivation for the interrupt-driven
+approach of our application.
+
+To allow the PowerDue to be interrupted by the sensor, the Arduino reference for
+\textit{attachInterrupt} \cite{InterruptRef} was relevant, because it shows the
+API of the function, and provides an example of how an interrupt handler can be
+registered with the PowerDue to handle interrupts on a given input PIN. Simply
+attaching an interrupt handler to the PowerDue is not enough to configure the
+system, because FXOS8700CQ also has to be configured to send an interrupt signal
+to the PowerDue, and \cite{DatasheetSPI} specifies how magnetometer registers
+have to be configured to enable FXOS8700CQ to send interrupt signals.

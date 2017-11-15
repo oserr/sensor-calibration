@@ -1,0 +1,55 @@
+\section{Analysis}
+\label{sec:analysis}
+
+There are multiple aspects of this experiment that require further work, and in
+particular the following aspects could be improved to make the application more
+efficient and accurate.
+
+\begin{enumerate}
+\item Computing two threshold values for each axis
+\begin{align}
+    x_{th} &= \lvert \overline{x} \rvert \pm \sigma_{x} * m \\
+    y_{th} &= \lvert \overline{y} \rvert \pm \sigma_{y} * m \\
+    z_{th} &= \lvert \overline{z} \rvert \pm \sigma_{z} * m
+\end{align}
+\item Reading all values from events detected
+\item Have a functional system that does not use delays
+\end{enumerate}
+
+Currently, for 1, the system is configured to only detect values that are
+greater than the threshold value, however, we also want to detect values $v$
+such that $v \le \lvert \overline{a} \rvert - \sigma_{a} * m$, where $v$
+represents a magnetic reading, and $a$ represents an axis (e.g., $x$). Clearly,
+these events lie outside the range of values that we expect from simple magnetic
+variation, and hence want to report them.
+
+For 2, we want to make sure that we report all values, but as described in
+Section~\ref{sec:sensor_int}, we had to add functionality to verify the values
+before reporting them, because the sensor might update the values after an event
+is detected, but before the values from the event are reported. If FXOS8700CQ
+supports preventing the sensor from updating the values if there is no event,
+then it might just be a matter of configuring a register, otherwise the magnetic
+data might have to be read within the interrupt handler (but data would still be
+reported in \textit{CollectData}). Regardless of what approach is taken, it is
+imperative that we report all values for events that are detected, especilly
+given the system is interrupted with notification that an event has occured -
+not reporting these values defeats the purpose of enabling interrupts and makes
+the application less reliable and accurate.
+
+For 3, we want to remove any delays because they prevent the CPU from sleeping
+\cite{iOSEnergy,CargoNet}, and because the delay may prevent the system from
+processing an event. We added the delay in order to associate one reading with
+one event (moving cell phone or magnetic strip close to sensor), but it is very
+likely possible to achieve the same result without having to resort to a delay.
+One alternative might be to use dynamic thresholding \cite{CargoNet}.
+
+For example, after detecting a value above the threshold, the threshold value
+can be updated such that the sensor will only send an interrupt signal to the
+PowerDue if the next mangenetic event is greater the previous one by a given
+amount, and gradually taper-down to the original threshold value. This would
+increase the software complexity, but it would get us closer to the desired
+application behavior without having to resort to sleeping. In this particular
+case, there is a trade-off between sleeping and added complexity to adjust the
+threshold values dynamically, and hence it would be necessary to a thoroughu
+cost-benefit analsys to determine if dynamic thresholding is indeed more power
+efficient than simply adding a slight delay after processing an event.

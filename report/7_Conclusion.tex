@@ -1,0 +1,15 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+Setting up a system to be event-driven can be challenging because it requires
+very close cooperation between the hardware-software interface, there are
+subtleties around the behavior of interrupt handlers, and the hardware
+configuration and code can be more complex; however, such an architecture can be
+essential for wireless embedded systems, in particular WSNs, which are expected
+to run a long time without getting battery replacements.
+
+Ultimately, setting up the PowerDue and FXOS8700CQ to be event-driven results in
+a system that is more power efficient and accurate, because it allows the
+PowerDue CPU to remain in the idle state for longer periods of time, and to be
+more accurate, because we avoid the cost of missed events while the system is
+sleeping waiting to make its next poll.
