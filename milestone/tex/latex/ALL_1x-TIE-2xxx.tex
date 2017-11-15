@@ -34,7 +34,19 @@
 \maketitle
 
 \begin{abstract}
-With the growing number of wireless devices, we need efficient mechanisms to let the wireless devices communicate securely. The wireless devices sometimes share common sensors that can be leveraged to perform additional authentication procedures on a set of localized wireless devices. The problem which prevents such a judicious use of sensors is the orientation of wireless devices. Sensors such as gyroscope and accelerometer are commonly found in wireless devices, but their readings make no sense until their orientations are the same. We plan to conduct controlled experiments to investigate how different environmental factors impact the accelerometer performance and how the best accuracy can be achieved in an appropriate condition range. We also characterize the nature of an accelerometer to understand its performance in different conditions. Based on such comprehensive understanding, we propose to estimate the phone attitude  and provide  for opportunistic calibration of the accelerometer
+With the growing number of wireless devices, we need efficient mechanisms to let
+the wireless devices communicate securely. The wireless devices sometimes share
+common sensors that can be leveraged to perform additional authentication
+procedures on a set of localized wireless devices. The problem which prevents
+such a judicious use of sensors is the orientation of wireless devices. Sensors
+such as gyroscope and accelerometer are commonly found in wireless devices, but
+their readings make no sense until their orientations are the same. We plan to
+conduct controlled experiments to investigate how different environmental factors
+impact the accelerometer performance and how the best accuracy can be achieved
+in an appropriate condition range. We also characterize the nature of an
+accelerometer to understand its performance in different conditions. Based on
+such comprehensive understanding, we propose to estimate the phone attitude  and
+provide  for opportunistic calibration of the accelerometer
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -53,26 +65,43 @@ set of devices is an extremely important yet burdensome task. Traditionally,
 these devices are paired manually, where an operator sets up an authentication
 with the existing network of devices. Specifically, we address the problem of a
 platoon ghost attack wherein an attacker device spoofs presence within a platoon
-to gain admission and subsequently execute malicious attacks. To address such
-concerns, we present ConAuth, a novel autonomous admission scheme which bindsu
-the devices to their physical context (i.e., locality). ConAuth exploits the
-findings that devices in a local setting experience similar context to prove to
-each other over time that they are co-present. Specifically, they experience
-similar events(e.g., people coming inside the room, knocking on the door). Our
-approach is based on the ability of the devices to capture this context, using
-sensors that both the devices share. We design and implement the ConAuth
-protocol and evaluate a proof-of-concept implementation using a set of
-experiments. Our implementation will demonstrate that devices in the same room
-can be sufficiently distinguished by their context and this can be utilized to
-thwart platoon ghost attacks and similar misbehavior.
+to gain admission and subsequently execute malicious attacks \cite{Han}. To
+address such concerns, we present ConAuth, a novel autonomous admission scheme
+which bindsu the devices to their physical context (i.e., locality). ConAuth
+exploits the findings that devices in a local setting experience similar context
+to prove to each other over time that they are co-present \cite{Han}.
+Specifically, they experience similar events(e.g., people coming inside the
+room, knocking on the door). Our approach is based on the ability of the devices
+to capture this context, using sensors that both the devices share. We design
+and implement the ConAuth protocol and evaluate a proof-of-concept
+implementation using a set of experiments. Our implementation will demonstrate
+that devices in the same room can be sufficiently distinguished by their context
+and this can be utilized to thwart platoon ghost attacks and similar misbehavior.
 
 \section{Problem Statement}
 
-Correlating sensor readings from two devices is difficult
+With near-ubiquitous availability of wireless devices equipped with a wide
+variety of sensors, research in building context aware services has been
+growing. However, despite a large number of services proposed and developed as
+research prototypes, the number of truly context-aware applications available in
+wireless devices is quite limited. A major barrier for the large-scale
+proliferation of context aware applications is poor accuracy \cite{Alanezi}. We
+address one of the key reasons for this poor accuracy, which is the impact of
+sensor orientation. Devices have their sensors oriented in different positions.
+We first show that smartphone positions significantly affect the values of the
+sensor data being collected by a context aware application, and this in turn
+has a significant impact on the accuracy of the application \cite{Alanezi}.
+Next, it describes the design and prototype development of a orientation
+discovery service that accurately detects a sensor orientation. This service is
+based on the sensor data collected from carefully chosen sensors. Finally, the
+paper demonstrates that the accuracy of an existing context aware service or
+application is significantly enhanced when run in conjunction with the proposed
+orienttion discovery service.
+
 
 \begin{figure}[!t]\centering
 	\includegraphics[width=8.5cm]{phoneOrientation}
-	\caption{Orientation for a mobile phone}\label{FIG_1}
+	\caption{Orientation for a mobile phone}\label{fig1}
 \end{figure}
 
 
@@ -90,6 +119,12 @@ between both coordinate systems is the Euler Axis/Angle method, which solves the
 problem from the geo-frames perspective. To compute the integration, the total
 device motion is split into multiple time windows, and the rotation of the
 device is the accumulated rotation of all the time windows.
+
+\begin{figure}[!t]\centering
+	\includegraphics[width=5.5cm]{acceleration}
+	\caption{User acceleration}\label{fig2}
+\end{figure}
+
 
 \subsection{Madgwick}
 
@@ -112,6 +147,11 @@ or high sampling frequency, of a Kalman-filter based algorithm \cite{Madgwick}.
 \item Compute the attidue of a mobile phone.
 \item Correlate the readings from the PowerDue and mobile phone.
 \end{enumerate}
+
+\begin{figure}[!t]\centering
+	\includegraphics[width=5.5cm]{magnetic_field}
+	\caption{User acceleration}\label{fig3}
+\end{figure}
 
 \section{Conclusion}
 
