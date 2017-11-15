@@ -105,7 +105,7 @@ orienttion discovery service.
 
 \begin{figure}[!t]\centering
 	\includegraphics[width=8.5cm]{phoneOrientation}
-	\caption{A device's body orientation.}\label{fig1}
+	\caption{A device's body orientation.}\label{fig:fig1}
 \end{figure}
 
 
@@ -119,13 +119,13 @@ the following steps:
 \begin{enumerate}
 \item Obtain sensor data from PowerDue with a sensor that contains a gyroscope,
       and possible an accelerometer.
-\item Obtain sensor data from mobile phone using iOS app PowerSense. See figures
-      \ref{fig:fig2} and \ref{fig:fig3} for an example of the type of data that
-      may be collected with PowerSense.
+\item Obtain sensor data from mobile phone using iOS app PowerSense. See
+      Figure~\ref{fig:fig2} and Figure~\ref{fig:fig3} for an example of the type
+      of data that may be collected with PowerSense.
 \item Compute orientation difference using Madgwick algorithm.
 \end{enumerate}
 \item Correlating the sensor data to determine whether sensors share context.
-\begin{enumerate}
+\end{enumerate}
 
 2 depends on 1, because knowing the orientation, or attitude, of two devices
 allows us take the difference between a devices body-orientation, as depicted in
@@ -149,7 +149,7 @@ device is the accumulated rotation of all the time windows.
 
 \begin{figure}[!t]\centering
 	\includegraphics[width=5.5cm]{acceleration}
-	\caption{User acceleration with iOS app PowerSense.}\label{fig2}
+	\caption{User acceleration with iOS app PowerSense.}\label{fig:fig2}
 \end{figure}
 
 \subsection{Madgwick algorithm}
@@ -200,7 +200,7 @@ on the PowerDue.
 
 \begin{figure}[!t]\centering
 	\includegraphics[width=5.5cm]{magnetic_field}
-	\caption{Magnetic field with iOS app PowerSense.}\label{fig3}
+	\caption{Magnetic field with iOS app PowerSense.}\label{fig:fig3}
 \end{figure}
 
 % References
