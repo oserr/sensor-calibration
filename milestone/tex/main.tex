@@ -118,8 +118,8 @@ the following steps:
 \item Determining the orientation of the devices in question.
 \begin{enumerate}
 \item Obtain sensor data from PowerDue with a sensor that contains a gyroscope,
-      and possible an accelerometer.
-\item Obtain sensor data from mobile phone using iOS app PowerSense. See
+      and possibly an accelerometer.
+\item Obtain sensor data from a mobile phone using iOS app PowerSense. See
       Figure~\ref{fig:fig2} and Figure~\ref{fig:fig3} for an example of the type
       of data that may be collected with PowerSense.
 \item Compute orientation difference using Madgwick algorithm.
@@ -167,14 +167,14 @@ frequency sampling of a Kalman-filter based algorithm \cite{Madgwick}.
 \section{Pending work}
 
 Up until this point, our work has consisted of research, and more of it
-remains to be done; however, there key steps that we need to follow through
+remains to be done; however, there are key steps that we need to follow through
 with in order to deliver results on the research:
 
 \begin{enumerate}
 \item Obtain a sensor with a gyroscope and accelerometer. None of the sensor at
       our disposal contain a gyroscope, which is the center piece of
       orientation-sensing algorithms. Therefore, it is imperative that we obtain
-      one soon, because it using a new sensor might entail having to modify or
+      one soon, because using a new sensor might entail having to modify or
       create drivers for the PowerDue.
 \item Compute the attitude of the PowerDue.
 \item Compute the attidue of a mobile phone.
@@ -187,7 +187,7 @@ sensor data is collected:
 
 \begin{itemize}
 \item Both devices have the same orientation and are in the same context.
-\item Both devices are in the same context, but their orientations different.
+\item Both devices are in the same context, but their orientations differ.
 \item Devices are not in the same context, but have the same orientation.
 \item Devices are not in the same context, and have different orientations.
 \end{itemize}
@@ -196,7 +196,7 @@ To deliver useful results, we have to correlate the data between different
 devices, and define what it means for two devices to share context. Also note
 that we plan to correlate the data between the devices by doing the
 analysis on our PCs, but ideally it would be more useful to deploy the model
-on the PowerDue.
+on the PowerDue, perhaps a task for future work.
 
 \begin{figure}[!t]\centering
 	\includegraphics[width=5.5cm]{magnetic_field}
