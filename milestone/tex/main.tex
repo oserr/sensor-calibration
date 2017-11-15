@@ -45,12 +45,12 @@ conduct controlled experiments to investigate how different environmental factor
 impact the accelerometer performance and how the best accuracy can be achieved
 in an appropriate condition range. We also characterize the nature of an
 accelerometer to understand its performance in different conditions. Based on
-such comprehensive understanding, we propose to estimate the phone attitude  and
-provide  for opportunistic calibration of the accelerometer
+such comprehensive understanding, we propose to estimate the phone attitude and
+provide for opportunistic calibration of the accelerometer
 \end{abstract}
 
 \begin{IEEEkeywords}
-Contextual security, sensor funsion, Madgwick.
+Contextual security, sensor funsion, Madgwick, device orientation.
 \end{IEEEkeywords}
 
 \definecolor{limegreen}{rgb}{0.2, 0.8, 0.2}
@@ -60,20 +60,22 @@ Contextual security, sensor funsion, Madgwick.
 \section{Introduction}
 
 \IEEEPARstart{W}{ith}
-growing number of IoT devices, securely pairing a new device into an existing
+the growing number of IoT devices, securely pairing a new device into an existing
 set of devices is an extremely important yet burdensome task. Traditionally,
 these devices are paired manually, where an operator sets up an authentication
 with the existing network of devices. Specifically, we address the problem of a
 platoon ghost attack wherein an attacker device spoofs presence within a platoon
 to gain admission and subsequently execute malicious attacks \cite{Han}. To
 address such concerns, we present ConAuth, a novel autonomous admission scheme
-which bindsu the devices to their physical context (i.e., locality). ConAuth
-exploits the findings that devices in a local setting experience similar context
+which binds devices to their physical context (i.e., locality).
+
+ConAuth exploits the findings that devices in a local setting experience similar context
 to prove to each other over time that they are co-present \cite{Han}.
-Specifically, they experience similar events(e.g., people coming inside the
+Specifically, they experience similar events (e.g., people coming inside the
 room, knocking on the door). Our approach is based on the ability of the devices
-to capture this context, using sensors that both the devices share. We design
-and implement the ConAuth protocol and evaluate a proof-of-concept
+to capture this context, using sensors that both the devices share.
+
+We design and implement the ConAuth protocol and evaluate a proof-of-concept
 implementation using a set of experiments. Our implementation will demonstrate
 that devices in the same room can be sufficiently distinguished by their context
 and this can be utilized to thwart platoon ghost attacks and similar misbehavior.
@@ -85,10 +87,12 @@ variety of sensors, research in building context aware services has been
 growing. However, despite a large number of services proposed and developed as
 research prototypes, the number of truly context-aware applications available in
 wireless devices is quite limited. A major barrier for the large-scale
-proliferation of context aware applications is poor accuracy \cite{Alanezi}. We
-address one of the key reasons for this poor accuracy, which is the impact of
-sensor orientation. Devices have their sensors oriented in different positions.
-We first show that smartphone positions significantly affect the values of the
+proliferation of context aware applications is poor accuracy \cite{Alanezi}.
+We address one of the key reasons for this poor accuracy, which is the impact of
+sensor orientation.
+
+Devices have their sensors oriented in different positions. We first show that
+smartphone positions significantly affect the values of the
 sensor data being collected by a context aware application, and this in turn
 has a significant impact on the accuracy of the application \cite{Alanezi}.
 Next, it describes the design and prototype development of a orientation
@@ -101,22 +105,45 @@ orienttion discovery service.
 
 \begin{figure}[!t]\centering
 	\includegraphics[width=8.5cm]{phoneOrientation}
-	\caption{Orientation for a mobile phone}\label{fig1}
+	\caption{A device's body orientation.}\label{fig1}
 \end{figure}
 
 
 \section{Technical Approach}
 
-Find the geoframe orientation of the PowerDue and mobile phone
+The process to determine whether two devices share the same context consists of
+the following steps:
 
-\subsection{Compute attitude of device}
+\begin{enumerate}
+\item Determining the orientation of the devices in question.
+\begin{enumerate}
+\item Obtain sensor data from PowerDue with a sensor that contains a gyroscope,
+      and possible an accelerometer.
+\item Obtain sensor data from mobile phone using iOS app PowerSense. See figures
+      \ref{fig:fig2} and \ref{fig:fig3} for an example of the type of data that
+      may be collected with PowerSense.
+\item Compute orientation difference using Madgwick algorithm.
+\end{enumerate}
+\item Correlating the sensor data to determine whether sensors share context.
+\begin{enumerate}
+
+2 depends on 1, because knowing the orientation, or attitude, of two devices
+allows us take the difference between a devices body-orientation, as depicted in
+Figure~\ref{fig:fig1}, with respect to the geoframe, the earth's orientation. Existing
+algorithms, as described in the next two subsections, can determine the
+orientation, but we've chosen to use Madgwick because it is open source and well
+suited for small embedded devices \cite{Madgwick}. The purpose of our remaining
+work is to determine 2, a technique for correlating data between two or more
+devices to allow us to determine shared context.
+
+\subsection{Computing the attitude of a device}
 
 The phone attitude is obtained by doing continuos integration on the angular
-velocity, and by taking the difference between the geo-framea, the earth
+velocity, and by taking the difference between the geoframe, the earth
 coordinate sytem, and the body-frame, the coordinate system of the device's
 body. Per \cite{PhoneAttitude}, the best approach for calculating the difference
 between both coordinate systems is the Euler Axis/Angle method, which solves the
-problem from the geo-frames perspective. To compute the integration, the total
+problem from the geoframe's perspective. To compute the integration, the total
 device motion is split into multiple time windows, and the rotation of the
 device is the accumulated rotation of all the time windows.
 
@@ -125,18 +152,17 @@ device is the accumulated rotation of all the time windows.
 	\caption{User acceleration}\label{fig2}
 \end{figure}
 
-
-\subsection{Madgwick}
+\subsection{Madgwick algorithm}
 
 Historically, the Kalman filter, and other techniques, including fuzzy
 processing and frequency domain filters, have been used as the basis for
 orientation algorithms; however, these techniques have several disadvantages
-\cite{Madgwick}. For example, the Kalma filter requires is computationally
-expensive, and some of the other techniques are only effective under limited
-conditions \cite{Madgwick}. Therefore, we plan to use Madgwick, an algorithm
+\cite{Madgwick}. For example, the Kalma filter is computationally expensive,
+and some of the other techniques are only effective under limited conditions
+\cite{Madgwick}. Therefore, we plan to use Madgwick, an algorithm
 that employs a quaternion representation of orientation, which has had positive
 results despite the fact that it does not require the heavy computational load,
-or high sampling frequency, of a Kalman-filter based algorithm \cite{Madgwick}.
+or high frequency sampling of a Kalman-filter based algorithm \cite{Madgwick}.
 
 \section{Plan of Attack}
 
