@@ -12,17 +12,23 @@ MPU9250::MPU9250(int8_t cspin /*=NOT_SPI*/) // Uses I2C communication by default
   // https://www.sparkfun.com/products/13762 , change the pre-soldered JP2 to
   // enable SPI (solder middle and left instead of middle and right) pads are
   // very small and re-soldering can be very tricky. I2C highly recommended.
-  if ((cspin > NOT_SPI) && (cspin < NUM_DIGITAL_PINS))
+  _csPin = ((cspin > NOT_SPI) && (cspin < NUM_DIGITAL_PINS)) ? cspin : NOT_SPI;
+}
+
+void MPU9250::init()
+{
+  // Use hardware SPI communication
+  // If used with sparkfun breakout board
+  // https://www.sparkfun.com/products/13762 , change the pre-soldered JP2 to
+  // enable SPI (solder middle and left instead of middle and right) pads are
+  // very small and re-soldering can be very tricky. I2C highly recommended.
+  if (_csPin == NOT_SPI)
+    Wire1.begin();
+  else
   {
-    _csPin = cspin;
     SPI.begin();
     pinMode(_csPin, OUTPUT);
     deselect();
-  }
-  else
-  {
-    _csPin = NOT_SPI;
-    Wire1.begin();
   }
 }
 

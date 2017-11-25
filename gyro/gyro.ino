@@ -40,6 +40,9 @@ void setup()
 {
   // TWBR = 12;  // 400 kbit/sec I2C speed
   SerialUSB.begin(9600);
+  while (not SerialUSB);
+
+  SerialUSB.println("Hello from Omar");
 
   // Set up the interrupt pin, its set as active high, push-pull
   //pinMode(intPin, INPUT);

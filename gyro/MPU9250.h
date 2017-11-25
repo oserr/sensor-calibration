@@ -269,6 +269,7 @@ public:
 
     // Public method declarations
     MPU9250(int8_t csPin=NOT_SPI);
+    void init();
     void getMres();
     void getGres();
     void getAres();
