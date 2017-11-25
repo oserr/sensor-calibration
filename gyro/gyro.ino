@@ -42,7 +42,9 @@ void setup()
   SerialUSB.begin(9600);
   while (not SerialUSB);
 
-  SerialUSB.println("Hello from Omar");
+  SerialUSB.println("Debug1");
+  myIMU.init();
+  SerialUSB.println("Debug2");
 
   // Set up the interrupt pin, its set as active high, push-pull
   //pinMode(intPin, INPUT);
