@@ -495,8 +495,8 @@ void MPU9250::MPU9250SelfTest(float * destination)
   // Get average current values of gyro and acclerometer
   for (int ii = 0; ii < 200; ii++)
   {
-Serial.print("BHW::ii = ");
-Serial.println(ii);
+SerialUSB.print("BHW::ii = ");
+SerialUSB.println(ii);
     // Read the six raw data registers into data array
     readBytes(MPU9250_ADDRESS, ACCEL_XOUT_H, 6, &rawData[0]);
     // Turn the MSB and LSB into a signed 16-bit value
@@ -612,8 +612,8 @@ void MPU9250::magCalMPU9250(float * bias_dest, float * scale_dest)
   // Make sure resolution has been calculated
   getMres();
 
-  Serial.println(F("Mag Calibration: Wave device in a figure 8 until done!"));
-  Serial.println(
+  SerialUSB.println(F("Mag Calibration: Wave device in a figure 8 until done!"));
+  SerialUSB.println(
       F("  4 seconds to get ready followed by 15 seconds of sampling)"));
   delay(4000);
 
@@ -655,9 +655,9 @@ void MPU9250::magCalMPU9250(float * bias_dest, float * scale_dest)
     }
   }
 
-  // Serial.println("mag x min/max:"); Serial.println(mag_max[0]); Serial.println(mag_min[0]);
-  // Serial.println("mag y min/max:"); Serial.println(mag_max[1]); Serial.println(mag_min[1]);
-  // Serial.println("mag z min/max:"); Serial.println(mag_max[2]); Serial.println(mag_min[2]);
+  // SerialUSB.println("mag x min/max:"); SerialUSB.println(mag_max[0]); SerialUSB.println(mag_min[0]);
+  // SerialUSB.println("mag y min/max:"); SerialUSB.println(mag_max[1]); SerialUSB.println(mag_min[1]);
+  // SerialUSB.println("mag z min/max:"); SerialUSB.println(mag_max[2]); SerialUSB.println(mag_min[2]);
 
   // Get hard iron correction
   // Get 'average' x mag bias in counts
@@ -687,7 +687,7 @@ void MPU9250::magCalMPU9250(float * bias_dest, float * scale_dest)
   scale_dest[1] = avg_rad / ((float)mag_scale[1]);
   scale_dest[2] = avg_rad / ((float)mag_scale[2]);
 
-  Serial.println(F("Mag Calibration done!"));
+  SerialUSB.println(F("Mag Calibration done!"));
 }
 
 // Wire.h read and write protocols
@@ -717,8 +717,8 @@ uint8_t MPU9250::writeByteSPI(uint8_t registerAddress, uint8_t writeData)
   deselect();
   SPI.endTransaction();
 #ifdef SERIAL_DEBUG
-  Serial.print("MPU9250::writeByteSPI slave returned: 0x");
-  Serial.println(returnVal, HEX);
+  SerialUSB.print("MPU9250::writeByteSPI slave returned: 0x");
+  SerialUSB.println(returnVal, HEX);
 #endif
   return returnVal;
 }
@@ -822,8 +822,8 @@ uint8_t MPU9250::readBytesSPI(uint8_t registerAddress, uint8_t count,
   {
     dest[i] = SPI.transfer(0x00);
 #ifdef SERIAL_DEBUG
-    Serial.print("readBytesSPI::Read byte: 0x");
-    Serial.println(dest[i], HEX);
+    SerialUSB.print("readBytesSPI::Read byte: 0x");
+    SerialUSB.println(dest[i], HEX);
 #endif
   }
 
@@ -836,8 +836,8 @@ uint8_t MPU9250::readBytesSPI(uint8_t registerAddress, uint8_t count,
 
   /*
 #ifdef SERIAL_DEBUG
-  Serial.print("MPU9250::writeByteSPI slave returned: 0x");
-  Serial.println(returnVal, HEX);
+  SerialUSB.print("MPU9250::writeByteSPI slave returned: 0x");
+  SerialUSB.println(returnVal, HEX);
 #endif
   return returnVal;
   */
@@ -846,19 +846,19 @@ uint8_t MPU9250::readBytesSPI(uint8_t registerAddress, uint8_t count,
   // Set slave address of AK8963 and set AK8963 for read
   writeByteSPI(I2C_SLV0_ADDR, AK8963_ADDRESS | READ_FLAG);
 
-Serial.print("\nBHW::I2C_SLV0_ADDR set to: 0x");
-Serial.println(readByte(MPU9250_ADDRESS, I2C_SLV0_ADDR), HEX);
+SerialUSB.print("\nBHW::I2C_SLV0_ADDR set to: 0x");
+SerialUSB.println(readByte(MPU9250_ADDRESS, I2C_SLV0_ADDR), HEX);
 
   // Set address to start read from
   writeByteSPI(I2C_SLV0_REG, registerAddress);
   // Read bytes from magnetometer
   //
-Serial.print("\nBHW::I2C_SLV0_CTRL gets 0x");
-Serial.println(READ_FLAG | count, HEX);
+SerialUSB.print("\nBHW::I2C_SLV0_CTRL gets 0x");
+SerialUSB.println(READ_FLAG | count, HEX);
 
   // Read count bytes from registerAddress via I2C_SLV0
-  Serial.print("BHW::readBytesSPI: return value test: ");
-  Serial.println(writeByteSPI(I2C_SLV0_CTRL, READ_FLAG | count));
+  SerialUSB.print("BHW::readBytesSPI: return value test: ");
+  SerialUSB.println(writeByteSPI(I2C_SLV0_CTRL, READ_FLAG | count));
   */
 }
 
@@ -918,8 +918,8 @@ bool MPU9250::magInit()
   // TODO: Remove this code
   uint8_t ret = ak8963WhoAmI_SPI();
 #ifdef SERIAL_DEBUG
-  Serial.print("MPU9250::magInit to return ");
-  Serial.println((ret == 0x48) ? "true" : "false");
+  SerialUSB.print("MPU9250::magInit to return ");
+  SerialUSB.println((ret == 0x48) ? "true" : "false");
 #endif
   return ret == 0x48;
 }
@@ -948,12 +948,12 @@ uint8_t MPU9250::ak8963WhoAmI_SPI()
   oldSlaveRegister = readByteSPI(I2C_SLV0_REG);
   oldSlaveConfig   = readByteSPI(I2C_SLV0_CTRL);
 #ifdef SERIAL_DEBUG
-  Serial.print("Old slave address: 0x");
-  Serial.println(oldSlaveAddress, HEX);
-  Serial.print("Old slave register: 0x");
-  Serial.println(oldSlaveRegister, HEX);
-  Serial.print("Old slave config: 0x");
-  Serial.println(oldSlaveConfig, HEX);
+  SerialUSB.print("Old slave address: 0x");
+  SerialUSB.println(oldSlaveAddress, HEX);
+  SerialUSB.print("Old slave register: 0x");
+  SerialUSB.println(oldSlaveRegister, HEX);
+  SerialUSB.print("Old slave config: 0x");
+  SerialUSB.println(oldSlaveConfig, HEX);
 #endif
 
   // Set the I2C slave addres of AK8963 and set for read
