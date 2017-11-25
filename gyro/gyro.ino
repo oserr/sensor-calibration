@@ -38,7 +38,6 @@ MPU9250 myIMU;
 
 void setup()
 {
-  Wire2.begin();
   // TWBR = 12;  // 400 kbit/sec I2C speed
   SerialUSB.begin(9600);
 
