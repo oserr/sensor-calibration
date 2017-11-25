@@ -31,7 +31,7 @@
 #define SerialDebug true  // Set to true to get Serial output for debugging
 
 // Pin definitions
-int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
+// int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
 int myLed  = 7;  // Set up pin 13 led for toggling
 
 MPU9250 myIMU;
