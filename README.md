@@ -13,4 +13,4 @@ to solve this problem.
 ## Misc Notes
 * PowerDue has MPU\_9250, which has a gyroscope and accelerometer.
 * The SparkFun library for the sensor can be updated with the correct address
-  to work with MPU\_9250.
+  to work with MPU\_9250. The address is 0b1101000.
