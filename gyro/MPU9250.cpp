@@ -22,7 +22,7 @@ MPU9250::MPU9250(int8_t cspin /*=NOT_SPI*/) // Uses I2C communication by default
   else
   {
     _csPin = NOT_SPI;
-    Wire.begin();
+    Wire2.begin();
   }
 }
 
@@ -726,10 +726,10 @@ uint8_t MPU9250::writeByteSPI(uint8_t registerAddress, uint8_t writeData)
 uint8_t MPU9250::writeByteWire(uint8_t deviceAddress, uint8_t registerAddress,
                             uint8_t data)
 {
-  Wire.beginTransmission(deviceAddress);  // Initialize the Tx buffer
-  Wire.write(registerAddress);      // Put slave register address in Tx buffer
-  Wire.write(data);                 // Put data in Tx buffer
-  Wire.endTransmission();           // Send the Tx buffer
+  Wire2.beginTransmission(deviceAddress);  // Initialize the Tx buffer
+  Wire2.write(registerAddress);      // Put slave register address in Tx buffer
+  Wire2.write(data);                 // Put data in Tx buffer
+  Wire2.endTransmission();           // Send the Tx buffer
   // TODO: Fix this to return something meaningful
   return NULL;
 }
@@ -754,15 +754,15 @@ uint8_t MPU9250::readByteWire(uint8_t deviceAddress, uint8_t registerAddress)
   uint8_t data; // `data` will store the register data
 
   // Initialize the Tx buffer
-  Wire.beginTransmission(deviceAddress);
+  Wire2.beginTransmission(deviceAddress);
   // Put slave register address in Tx buffer
-  Wire.write(registerAddress);
+  Wire2.write(registerAddress);
   // Send the Tx buffer, but send a restart to keep connection alive
-  Wire.endTransmission(false);
+  Wire2.endTransmission(false);
   // Read one byte from slave register address
-  Wire.requestFrom(deviceAddress, (uint8_t) 1);
+  Wire2.requestFrom(deviceAddress, (uint8_t) 1);
   // Fill Rx buffer with result
-  data = Wire.read();
+  data = Wire2.read();
   // Return data read from slave register
   return data;
 }
@@ -778,19 +778,19 @@ uint8_t MPU9250::readBytesWire(uint8_t deviceAddress, uint8_t registerAddress,
                         uint8_t count, uint8_t * dest)
 {
   // Initialize the Tx buffer
-  Wire.beginTransmission(deviceAddress);
+  Wire2.beginTransmission(deviceAddress);
   // Put slave register address in Tx buffer
-  Wire.write(registerAddress);
+  Wire2.write(registerAddress);
   // Send the Tx buffer, but send a restart to keep connection alive
-  Wire.endTransmission(false);
+  Wire2.endTransmission(false);
 
   uint8_t i = 0;
   // Read bytes from slave register address
-  Wire.requestFrom(deviceAddress, count);
-  while (Wire.available())
+  Wire2.requestFrom(deviceAddress, count);
+  while (Wire2.available())
   {
     // Put read results in the Rx buffer
-    dest[i++] = Wire.read();
+    dest[i++] = Wire2.read();
   }
 
   return i; // Return number of bytes written
