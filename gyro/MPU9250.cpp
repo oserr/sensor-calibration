@@ -757,6 +757,7 @@ uint8_t MPU9250::readByte(uint8_t deviceAddress, uint8_t registerAddress)
 // Read a byte from the given register address from device using I2C
 uint8_t MPU9250::readByteWire(uint8_t deviceAddress, uint8_t registerAddress)
 {
+    SerialUSB.println("Calling readByteWrite");
   uint8_t data; // `data` will store the register data
 
   // Initialize the Tx buffer
