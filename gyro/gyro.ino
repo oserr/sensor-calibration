@@ -93,6 +93,7 @@ void setup()
     SerialUSB.print(" I should be 0x");
     SerialUSB.println(0x48, HEX);
 
+/*
     if (d != 0x48)
     {
       // Communication failed, stop here
@@ -100,6 +101,7 @@ void setup()
       SerialUSB.flush();
       abort();
     }
+*/
 
     // Get magnetometer calibration from AK8963 ROM
     myIMU.initAK8963(myIMU.factoryMagCalibration);
