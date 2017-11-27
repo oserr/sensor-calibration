@@ -42,9 +42,7 @@ void setup()
   SerialUSB.begin(9600);
   while (not SerialUSB);
 
-  SerialUSB.println("Debug1");
   myIMU.init();
-  SerialUSB.println("Debug2");
 
   // Set up the interrupt pin, its set as active high, push-pull
   //pinMode(intPin, INPUT);
@@ -52,33 +50,7 @@ void setup()
   pinMode(myLed, OUTPUT);
   digitalWrite(myLed, HIGH);
 
-    // Read the WHO_AM_I register, this is a good test of communication
-    for (uint8_t i = 0; i < 128; ++i) {
-        SerialUSB.print(F("Trying address "));
-        SerialUSB.println(i, HEX);
-        SerialUSB.flush();
-        byte b = myIMU.readByte(i, WHO_AM_I_MPU9250);
-        SerialUSB.print(F("Read byte "));
-        SerialUSB.println(b, HEX);
-        if (b != 0x71) {
-            SerialUSB.println(F("Failed"));
-            SerialUSB.flush();
-        }
-        else if (b != 0xff) {
-            SerialUSB.println(F("return value does not equal 0xff"));
-            SerialUSB.flush();
-            while (true);
-        }
-        else {
-            SerialUSB.println(F("Success"));
-            SerialUSB.flush();
-            while (true);
-        }
-    }
-
-    SerialUSB.println(F("None of the addresses worked"));
-    while (true);
-
+  // Read the WHO_AM_I register, this is a good test of communication
   byte c = myIMU.readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
   SerialUSB.print(F("MPU9250 I AM 0x"));
   SerialUSB.print(c, HEX);
