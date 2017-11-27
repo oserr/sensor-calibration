@@ -23,7 +23,7 @@ void MPU9250::init()
   // enable SPI (solder middle and left instead of middle and right) pads are
   // very small and re-soldering can be very tricky. I2C highly recommended.
   if (_csPin == NOT_SPI)
-    Wire1.begin();
+    Wire.begin();
   else
   {
     SPI.begin();
@@ -732,10 +732,10 @@ uint8_t MPU9250::writeByteSPI(uint8_t registerAddress, uint8_t writeData)
 uint8_t MPU9250::writeByteWire(uint8_t deviceAddress, uint8_t registerAddress,
                             uint8_t data)
 {
-  Wire1.beginTransmission(deviceAddress);  // Initialize the Tx buffer
-  Wire1.write(registerAddress);      // Put slave register address in Tx buffer
-  Wire1.write(data);                 // Put data in Tx buffer
-  Wire1.endTransmission();           // Send the Tx buffer
+  Wire.beginTransmission(deviceAddress);  // Initialize the Tx buffer
+  Wire.write(registerAddress);      // Put slave register address in Tx buffer
+  Wire.write(data);                 // Put data in Tx buffer
+  Wire.endTransmission();           // Send the Tx buffer
   // TODO: Fix this to return something meaningful
   return NULL;
 }
@@ -757,19 +757,18 @@ uint8_t MPU9250::readByte(uint8_t deviceAddress, uint8_t registerAddress)
 // Read a byte from the given register address from device using I2C
 uint8_t MPU9250::readByteWire(uint8_t deviceAddress, uint8_t registerAddress)
 {
-    SerialUSB.println("Calling readByteWrite");
   uint8_t data; // `data` will store the register data
 
   // Initialize the Tx buffer
-  Wire1.beginTransmission(deviceAddress);
+  Wire.beginTransmission(deviceAddress);
   // Put slave register address in Tx buffer
-  Wire1.write(registerAddress);
+  Wire.write(registerAddress);
   // Send the Tx buffer, but send a restart to keep connection alive
-  Wire1.endTransmission(false);
+  Wire.endTransmission(false);
   // Read one byte from slave register address
-  Wire1.requestFrom(deviceAddress, (uint8_t) 1);
+  Wire.requestFrom(deviceAddress, (uint8_t) 1);
   // Fill Rx buffer with result
-  data = Wire1.read();
+  data = Wire.read();
   // Return data read from slave register
   return data;
 }
@@ -785,19 +784,19 @@ uint8_t MPU9250::readBytesWire(uint8_t deviceAddress, uint8_t registerAddress,
                         uint8_t count, uint8_t * dest)
 {
   // Initialize the Tx buffer
-  Wire1.beginTransmission(deviceAddress);
+  Wire.beginTransmission(deviceAddress);
   // Put slave register address in Tx buffer
-  Wire1.write(registerAddress);
+  Wire.write(registerAddress);
   // Send the Tx buffer, but send a restart to keep connection alive
-  Wire1.endTransmission(false);
+  Wire.endTransmission(false);
 
   uint8_t i = 0;
   // Read bytes from slave register address
-  Wire1.requestFrom(deviceAddress, count);
-  while (Wire1.available())
+  Wire.requestFrom(deviceAddress, count);
+  while (Wire.available())
   {
     // Put read results in the Rx buffer
-    dest[i++] = Wire1.read();
+    dest[i++] = Wire.read();
   }
 
   return i; // Return number of bytes written
