@@ -24,6 +24,7 @@
  GND ---------------------- GND
  */
 
+#include <TimeLib.h>
 #include "quaternionFilters.h"
 #include "MPU9250.h"
 
@@ -45,6 +46,13 @@ void setup()
   while (not SerialUSB);
 
   myIMU.init();
+
+  for (int i = 0; i < 10; ++i) {
+      auto t = now();
+      SerialUSB.print("time = ");
+      SerialUSB.println(t);
+      delay(500);
+  }
 
   // Set up the interrupt pin, its set as active high, push-pull
   //pinMode(intPin, INPUT);
