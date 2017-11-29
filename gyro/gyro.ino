@@ -28,7 +28,7 @@
 #include "MPU9250.h"
 
 #define AHRS true         // Set to false for basic data read
-#define SerialDebug true  // Set to true to get SerialUSB output for debugging
+#define SerialDebug false // Set to true to get SerialUSB output for debugging
 #define ONLY_GYRO         // Only print gyro info for project
 #define VERBOSE 0         // Define as 1 if verbose debug info is desired
 
@@ -54,13 +54,16 @@ void setup()
 
   // Read the WHO_AM_I register, this is a good test of communication
   byte c = myIMU.readByte(MPU9250_ADDRESS, WHO_AM_I_MPU9250);
+#if VERBOSE == 1
   SerialUSB.print(F("MPU9250 I AM 0x"));
   SerialUSB.print(c, HEX);
   SerialUSB.print(F(" I should be 0x"));
   SerialUSB.println(0x71, HEX);
+#endif
 
   if (c == 0x71) // WHO_AM_I should always be 0x71
   {
+#if VERBOSE == 1
     SerialUSB.println(F("MPU9250 is online..."));
 
     // Start by performing self test and reporting values
@@ -77,6 +80,7 @@ void setup()
     SerialUSB.print(myIMU.selfTest[4],1); SerialUSB.println("% of factory value");
     SerialUSB.print(F("z-axis self test: gyration trim within : "));
     SerialUSB.print(myIMU.selfTest[5],1); SerialUSB.println("% of factory value");
+#endif
 
     // Calibrate gyro and accelerometers, load biases in bias registers
     myIMU.calibrateMPU9250(myIMU.gyroBias, myIMU.accelBias);
@@ -84,16 +88,20 @@ void setup()
     myIMU.initMPU9250();
     // Initialize device for active mode read of acclerometer, gyroscope, and
     // temperature
+#if VERBOSE == 1
     SerialUSB.println("MPU9250 initialized for active data mode....");
+#endif
 
     // Read the WHO_AM_I register of the magnetometer, this is a good test of
     // communication
     byte d = myIMU.readByte(AK8963_ADDRESS, WHO_AM_I_AK8963);
+#if VERBOSE == 1
     SerialUSB.print("AK8963 ");
     SerialUSB.print("I AM 0x");
     SerialUSB.print(d, HEX);
     SerialUSB.print(" I should be 0x");
     SerialUSB.println(0x48, HEX);
+#endif
 
 /*
     if (d != 0x48)
@@ -108,7 +116,9 @@ void setup()
     // Get magnetometer calibration from AK8963 ROM
     myIMU.initAK8963(myIMU.factoryMagCalibration);
     // Initialize device for active mode read of magnetometer
+#if VERBOSE == 1
     SerialUSB.println("AK8963 initialized for active data mode....");
+#endif
 
     if (SerialDebug)
     {
@@ -129,6 +139,7 @@ void setup()
     // The next call delays for 4 seconds, and then records about 15 seconds of
     // data to calculate bias and scale.
     myIMU.magCalMPU9250(myIMU.magBias, myIMU.magScale);
+#if VERBOSE == 1
     SerialUSB.println("AK8963 mag biases (mG)");
     SerialUSB.println(myIMU.magBias[0]);
     SerialUSB.println(myIMU.magBias[1]);
@@ -139,6 +150,7 @@ void setup()
     SerialUSB.println(myIMU.magScale[1]);
     SerialUSB.println(myIMU.magScale[2]);
     delay(2000); // Add delay to see results before SerialUSB spew of data
+#endif
 
     if(SerialDebug)
     {
@@ -265,6 +277,13 @@ void loop()
     // update LCD once per half-second independent of read rate
     if (myIMU.delt_t > 500)
     {
+        constexpr float radmult = PI/180.0;
+        SerialUSB.print(myIMU.gx * radmult, 4);
+        SerialUSB.print(",");
+        SerialUSB.print(myIMU.gy * radmult, 4);
+        SerialUSB.print(",");
+        SerialUSB.println(myIMU.gz * radmult, 4);
+
       if(SerialDebug)
       {
         SerialUSB.print("ax = ");  SerialUSB.print((int)1000 * myIMU.ax);
