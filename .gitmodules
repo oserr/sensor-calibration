@@ -1,3 +1,6 @@
 [submodule "mpu9250"]
 	path = mpu9250
 	url = https://github.com/sparkfun/SparkFun_MPU-9250_Breakout_Arduino_Library
+[submodule "rtcdue"]
+	path = rtcdue
+	url = https://github.com/MarkusLange/RTCDue.git
