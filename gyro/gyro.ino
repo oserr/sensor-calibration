@@ -27,6 +27,8 @@
 #include <TimeLib.h>
 #include "quaternionFilters.h"
 #include "MPU9250.h"
+#include "RTCDue.h"
+
 
 #define AHRS true         // Set to false for basic data read
 #define SerialDebug false // Set to true to get SerialUSB output for debugging
@@ -36,6 +38,15 @@
 // Pin definitions
 // int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
 int myLed  = 7;  // Set up pin 13 led for toggling
+
+// Select the Slowclock source
+//RTC_clock rtc_clock(RC);
+RTCDue rtcDue(XTAL);
+
+time_t getArduinoDueTime()
+{
+  return rtcDue.unixtime();
+}
 
 MPU9250 myIMU;
 
@@ -47,7 +58,29 @@ void setup()
 
   myIMU.init();
 
-  for (int i = 0; i < 10; ++i) {
+  rtcDue.begin();
+  if (rtcDue.isDateAlreadySet() == 0) {
+    // Unfortunately, the Arduino Due hardware does not seem to
+    // be designed to maintain the RTC clock state when the
+    // board resets.  Markus described it thusly: "Uhh the Due
+    // does reset with the NRSTB pin.  This resets the full chip
+    // with all backup regions including RTC, RTT and SC.  Only
+    // if the reset is done with the NRST pin will these regions
+    // stay with their old values."
+    rtcDue.setTime(__TIME__);
+    rtcDue.setDate(__DATE__);
+    // However, this might work on other unofficial SAM3X boards
+    // with different reset circuitry than Arduino Due?
+  }
+  setSyncProvider(getArduinoDueTime);
+  if(timeStatus() == timeSet)
+     SerialUSB.println("RTC has set the system time");
+  else {
+     SerialUSB.println("Unable to sync with the RTC");
+     while (1);
+  }
+
+  for (int i = 0; i < 1000; ++i) {
       auto t = now();
       SerialUSB.print("time = ");
       SerialUSB.println(t);
