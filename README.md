@@ -14,5 +14,8 @@ to solve this problem.
 * PowerDue has MPU\_9250, which has a gyroscope and accelerometer.
 * The SparkFun library for the sensor can be updated with the correct address
   to work with MPU\_9250. The address is 0b1101000.
-* http://x-io.co.uk/open-source-imu-and-ahrs-algorithms/
+* Madgwick MATLAB scripts found [here][1].
+* RTC PowerDue library found [here][2].
 
+[1]: http://x-io.co.uk/open-source-imu-and-ahrs-algorithms/
+[2]: https://github.com/MarkusLange/RTCDue
