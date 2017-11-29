@@ -30,6 +30,7 @@
 #define AHRS true         // Set to false for basic data read
 #define SerialDebug true  // Set to true to get SerialUSB output for debugging
 #define ONLY_GYRO         // Only print gyro info for project
+#define VERBOSE 0         // Define as 1 if verbose debug info is desired
 
 // Pin definitions
 // int intPin = 12;  // These can be changed, 2 and 3 are the Arduinos ext int pins
