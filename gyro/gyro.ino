@@ -80,13 +80,6 @@ void setup()
      while (1);
   }
 
-  for (int i = 0; i < 1000; ++i) {
-      auto t = now();
-      SerialUSB.print("time = ");
-      SerialUSB.println(t);
-      delay(500);
-  }
-
   // Set up the interrupt pin, its set as active high, push-pull
   //pinMode(intPin, INPUT);
   //digitalWrite(intPin, LOW);
@@ -319,6 +312,8 @@ void loop()
     if (myIMU.delt_t > 500)
     {
         constexpr float radmult = PI/180.0;
+        SerialUSB.print(now());
+        SerialUSB.print(",");
         SerialUSB.print(myIMU.gx * radmult, 4);
         SerialUSB.print(",");
         SerialUSB.print(myIMU.gy * radmult, 4);
