@@ -309,15 +309,36 @@ void loop()
         myIMU.delt_t = millis() - myIMU.count;
 
         // update LCD once per half-second independent of read rate
-        if (myIMU.delt_t > 500) {
+        if (myIMU.delt_t >= 50) {
             constexpr float radmult = PI/180.0;
+
+            // Timestamp
             SerialUSB.print(now());
+
+            // Rotation data
             SerialUSB.print(",");
             SerialUSB.print(myIMU.gx * radmult, 4);
             SerialUSB.print(",");
             SerialUSB.print(myIMU.gy * radmult, 4);
             SerialUSB.print(",");
-            SerialUSB.println(myIMU.gz * radmult, 4);
+            SerialUSB.print(myIMU.gz * radmult, 4);
+
+            // Acceleration data
+            SerialUSB.print(",");
+            SerialUSB.print((int)1000 * myIMU.ax);
+            SerialUSB.print(",");
+            SerialUSB.print((int)1000 * myIMU.ay);
+            SerialUSB.print(",");
+            SerialUSB.print((int)1000 * myIMU.az);
+
+            // Magnetometer data
+            SerialUSB.print(",");
+            SerialUSB.print((int)myIMU.mx);
+            SerialUSB.print(",");
+            SerialUSB.print((int)myIMU.my);
+            SerialUSB.print(",");
+            SerialUSB.print((int)myIMU.mz);
+            SerialUSB.println();
 
             if (SerialDebug) {
                 SerialUSB.print("ax = ");  SerialUSB.print((int)1000 * myIMU.ax);
