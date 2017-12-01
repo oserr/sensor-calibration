@@ -72,6 +72,7 @@ void setup()
     // However, this might work on other unofficial SAM3X boards
     // with different reset circuitry than Arduino Due?
   }
+  rtcDue.setClock(rtcDue.unixtime()+28812);
   setSyncProvider(getArduinoDueTime);
   if(timeStatus() == timeSet)
      SerialUSB.println("RTC has set the system time");
