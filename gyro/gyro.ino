@@ -196,6 +196,10 @@ void setup()
             SerialUSB.print("Z-Axis sensitivity adjustment value ");
             SerialUSB.println(myIMU.factoryMagCalibration[2], 2);
         }
+
+        SerialUSB.println("time_unix, rotate_x, rotate_y,"
+                          " rotate_z, acc_x, acc_y, acc_z,"
+                          " mag_x, mag_y, mag_z");
     } // if (c == 0x71)
     else
     {
