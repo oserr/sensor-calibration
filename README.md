@@ -17,5 +17,19 @@ to solve this problem.
 * Madgwick MATLAB scripts found [here][1].
 * RTC PowerDue library found [here][2].
 
+## Experimental Data
+The experimental data is located under `data`, and is is organized as follows:
+
+* `android`: contains data obtained from ArduinoSense Android app.
+* `ios`: contains data obtained from PowerSense iOS app.
+* `powerdue`: contains data obtained from PowerDue.
+
+Each directory then contains data for three experiments:
+
+1. Devices are share context in moving vehicle.
+2. Devices don't share context as one is with pedestrian and the other in moving
+   vehicle.
+3. Devices don't share context as each is located in a different moving vehicle.
+
 [1]: http://x-io.co.uk/open-source-imu-and-ahrs-algorithms/
 [2]: https://github.com/MarkusLange/RTCDue
