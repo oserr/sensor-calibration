@@ -118,6 +118,8 @@ ylabel('yaw');
 %legend('horizontal', 'vertical');
 hold off;
 
+
+
 %% making second quaternion orient to first's frame of reference
 
 
@@ -164,17 +166,4 @@ xlabel('Time (s)');
 ylabel('yaw)');
 %legend('horizontal', 'vertical');
 hold off;
-
-
-
-%figure('Name', 'Rotation');
-%hold on;
-%plot(time_1, relative_or(:,1), 'r');
-%plot(time_1, relative_or(:,2), 'g');
-%plot(time_1, relative_or(:,3), 'b');
-%legend('\phi', '\theta', '\psi');
-%xlabel('Time (s)');
-%ylabel('Angular rate (deg/s)');
-%title('Rotation angle');
-%hold off;
 %% End of script
