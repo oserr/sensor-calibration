@@ -43,8 +43,7 @@ int myLed  = 7;  // Set up pin 13 led for toggling
 //RTC_clock rtc_clock(RC);
 RTCDue rtcDue(XTAL);
 
-time_t
-getArduinoDueTime()
+time_t getArduinoDueTime()
 {
     return rtcDue.unixtime();
 }
@@ -309,7 +308,7 @@ void loop()
         myIMU.delt_t = millis() - myIMU.count;
 
         // update LCD once per half-second independent of read rate
-        if (myIMU.delt_t >= 50) {
+        if (myIMU.delt_t >= 25) {
             constexpr float radmult = PI/180.0;
 
             // Timestamp
