@@ -43,8 +43,7 @@ int myLed  = 7;  // Set up pin 13 led for toggling
 //RTC_clock rtc_clock(RC);
 RTCDue rtcDue(XTAL);
 
-time_t
-getArduinoDueTime()
+time_t getArduinoDueTime()
 {
     return rtcDue.unixtime();
 }
@@ -196,6 +195,10 @@ void setup()
             SerialUSB.print("Z-Axis sensitivity adjustment value ");
             SerialUSB.println(myIMU.factoryMagCalibration[2], 2);
         }
+
+        SerialUSB.println("time_unix,rotate_x,rotate_y,"
+                          "rotate_z,acc_x,acc_y,acc_z,"
+                          "mag_x,mag_y,mag_z");
     } // if (c == 0x71)
     else
     {
@@ -305,15 +308,36 @@ void loop()
         myIMU.delt_t = millis() - myIMU.count;
 
         // update LCD once per half-second independent of read rate
-        if (myIMU.delt_t > 500) {
+        if (myIMU.delt_t >= 25) {
             constexpr float radmult = PI/180.0;
+
+            // Timestamp
             SerialUSB.print(now());
+
+            // Rotation data
             SerialUSB.print(",");
             SerialUSB.print(myIMU.gx * radmult, 4);
             SerialUSB.print(",");
             SerialUSB.print(myIMU.gy * radmult, 4);
             SerialUSB.print(",");
-            SerialUSB.println(myIMU.gz * radmult, 4);
+            SerialUSB.print(myIMU.gz * radmult, 4);
+
+            // Acceleration data
+            SerialUSB.print(",");
+            SerialUSB.print((int)1000 * myIMU.ax);
+            SerialUSB.print(",");
+            SerialUSB.print((int)1000 * myIMU.ay);
+            SerialUSB.print(",");
+            SerialUSB.print((int)1000 * myIMU.az);
+
+            // Magnetometer data
+            SerialUSB.print(",");
+            SerialUSB.print((int)myIMU.mx);
+            SerialUSB.print(",");
+            SerialUSB.print((int)myIMU.my);
+            SerialUSB.print(",");
+            SerialUSB.print((int)myIMU.mz);
+            SerialUSB.println();
 
             if (SerialDebug) {
                 SerialUSB.print("ax = ");  SerialUSB.print((int)1000 * myIMU.ax);
