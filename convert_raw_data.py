@@ -183,21 +183,21 @@ for exp in expriment_dirs:
         if DEBUG:
             msg = 'Created powerdue data frame with columns %s'
             print(msg % pd_df.columns)
-            msg = 'The dimensions are %d'
-            print(msg % pd_df.shape)
+            msg = 'The dimensions are %s'
+            print(msg % str(pd_df.shape))
 
         # Read PowerSense data file
         app_df = pandas.read_csv(app_file, usecols=power_sense_cols)
         app_df.columns = app_col_names
+        app_df.app_unixtime = app_df.app_unixtime.astype(int)
         app_seconds = app_df.app_unixtime.unique()
         # Convert time as float to int
-        app_df.app_unixtime = app_df.app_unixtime.astype(int)
 
         if DEBUG:
             msg = 'Created app data frame with columns %s'
             print(msg % app_df.columns)
-            msg = 'The dimensions are %d'
-            print(msg % app_df.shape)
+            msg = 'The dimensions are %s'
+            print(msg % str(app_df.shape))
 
         # Only care about readings from same time
         shared_seconds = set(powerdue_seconds) & set(app_seconds)
@@ -206,9 +206,9 @@ for exp in expriment_dirs:
 
         if DEBUG:
             msg = 'The data frames share %d secons'
-            print(msg % len(share_secons))
-            msg = 'Now dimensions are powerdue: %d app: %d'
-            print(msg % (pd_df.shape, app_df.shape))
+            print(msg % len(shared_seconds))
+            msg = 'Now dimensions are powerdue: %s app: %s'
+            print(msg % (str(pd_df.shape), str(app_df.shape)))
 
         new_df_rows = []
         for sec in shared_seconds:
@@ -221,9 +221,9 @@ for exp in expriment_dirs:
 
             if DEBUG:
                 msg = 'The shape of pd_time_df: %s'
-                print(msg % pd_time_df.shape)
+                print(msg % str(pd_time_df.shape))
                 msg = 'The shape of app_time_df: %s'
-                print(msg % app_time_df.shape)
+                print(msg % str(app_time_df.shape))
 
             # If we have less than 20 readings on a second then don't include
             if pd_rows < 30 or app_rows < 30:
