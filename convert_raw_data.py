@@ -112,27 +112,27 @@ ios_dir = 'ios'
 expriment_dirs = ['exp1', 'exp2', 'exp3']
 exp1_mappings = [
     # powerdue files, app files
-    ('exp1-2.csv', 'exp1-1.csv'),
-    ('exp1-3.csv', 'exp1-2.csv'),
-    ('exp1-4.csv', 'exp1-3.csv'),
-    ('exp1-5.csv', 'exp1-4.csv'),
-    ('exp1-6.csv', 'exp1-5.csv'),
+    ('exp1_2.csv', 'exp1-1.csv'),
+    ('exp1_3.csv', 'exp1-2.csv'),
+    ('exp1_4.csv', 'exp1-3.csv'),
+    ('exp1_5.csv', 'exp1-4.csv'),
+    ('exp1_6.csv', 'exp1-5.csv'),
 ]
 exp2_mappings = [
     # powerdue files, app files
-    ('exp2-2.csv', 'exp2-2.csv'),
-    ('exp2-3.csv', 'exp2-3.csv'),
-    ('exp2-4.csv', 'exp2-4.csv'),
-    ('exp2-5.csv', 'exp2-5.csv'),
-    ('exp2-6.csv', 'exp2-6.csv'),
+    ('exp2_2.csv', 'exp2-2.csv'),
+    ('exp2_3.csv', 'exp2-3.csv'),
+    ('exp2_4.csv', 'exp2-4.csv'),
+    ('exp2_5.csv', 'exp2-5.csv'),
+    ('exp2_6.csv', 'exp2-6.csv'),
 ]
 exp3_mappings = [
     # powerdue files, app files
-    ('exp3-1.csv', 'exp3-1.csv'),
-    ('exp3-2.csv', 'exp3-2.csv'),
-    ('exp3-3.csv', 'exp3-3.csv'),
-    ('exp3-4.csv', 'exp3-4.csv'),
-    ('exp3-5.csv', 'exp3-5.csv'),
+    ('exp3_1.csv', 'exp3-1.csv'),
+    ('exp3_2.csv', 'exp3-2.csv'),
+    ('exp3_3.csv', 'exp3-3.csv'),
+    ('exp3_4.csv', 'exp3-4.csv'),
+    ('exp3_5.csv', 'exp3-5.csv'),
 ]
 exp_mappings = {
     'exp1': exp1_mappings,
