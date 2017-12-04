@@ -23,51 +23,6 @@
 
 import pandas
 
-# Columns from PowerSense that we are interested in.
-power_sense_cols = [0, 4, 5, 6, 10, 11, 12, 13, 14, 15]
-
-# Names of columns for fields from app.
-app_col_names = [
-    'app_unixtime',
-    'app_rot_x', 'app_rot_y', 'app_rot_z',
-    'app_acc_x', 'app_acc_y', 'app_acc_z',
-    'app_mag_x', 'app_mag_y', 'app_mag_z'
-]
-
-# Read Powerdue data file
-pd_file = 'powerdue_file.csv'
-pd_df = pandas.read_csv(pd_file)
-data_times = pd_df.unixtime.unique()
-
-# Read PowerSense data file
-app_file = 'app_file.csv'
-app_df = pandas.read_csv(app_file, usecols=power_sense_cols)
-app_df.columns = app_col_names
-# Convert time as float to int
-app_df.app_unixtime = app_df.app_unixtime.astype(int)
-app_df = app_df[app_df.app_unixtime.isin(data_times)]
-
-# For each time, find out how many readings we have, and then normalize by
-# averaging the values of the data frame that has more readings.
-new_df_rows = []
-for t in data_times:
-    pd_time_df = pd_df[pd_df.unixtime == t]
-    pd_rows, _ = pd_time_df.shape
-
-    app_time_df = app_df[app_df.app_unixtime == t]
-    app_rows = app_time_df.shape
-
-    # If we have less than 20 readings on a second then don't include
-    if pd_rows < 30 or app_rows < 30:
-        continue
-
-    new_rows = normalize_rows(pd_time_df, app_time_df)
-    new_df_rows.extend(new_rows)
-    if pd_rows <= app_rows:
-        new_rows = normalize_app_rows(pd_time_df, app_time_df)
-    else:
-        new_rows = normalize_pd_rows(pd_time_df, app_time_df)
-
 
 def normalize_rows(powerdue, app):
     '''Creates a new set of data so that the number of rows in the powerdue
@@ -139,3 +94,45 @@ def normalize_rows(powerdue, app):
             prow.extend(arow)
             new_rows += prow
     return new_rows
+
+
+# Columns from PowerSense that we are interested in.
+power_sense_cols = [0, 4, 5, 6, 10, 11, 12, 13, 14, 15]
+
+# Names of columns for fields from app.
+app_col_names = [
+    'app_unixtime',
+    'app_rot_x', 'app_rot_y', 'app_rot_z',
+    'app_acc_x', 'app_acc_y', 'app_acc_z',
+    'app_mag_x', 'app_mag_y', 'app_mag_z'
+]
+
+# Read Powerdue data file
+pd_file = 'powerdue_file.csv'
+pd_df = pandas.read_csv(pd_file)
+data_times = pd_df.unixtime.unique()
+
+# Read PowerSense data file
+app_file = 'app_file.csv'
+app_df = pandas.read_csv(app_file, usecols=power_sense_cols)
+app_df.columns = app_col_names
+# Convert time as float to int
+app_df.app_unixtime = app_df.app_unixtime.astype(int)
+app_df = app_df[app_df.app_unixtime.isin(data_times)]
+
+# For each time, find out how many readings we have, and then normalize by
+# averaging the values of the data frame that has more readings.
+new_df_rows = []
+for sec in data_times:
+    pd_time_df = pd_df[pd_df.unixtime == sec]
+    pd_rows, _ = pd_time_df.shape
+
+    app_time_df = app_df[app_df.app_unixtime == sec]
+    app_rows, _ = app_time_df.shape
+
+    # If we have less than 20 readings on a second then don't include
+    if pd_rows < 30 or app_rows < 30:
+        continue
+
+    new_rows = normalize_rows(pd_time_df, app_time_df)
+    new_df_rows.extend(new_rows)
