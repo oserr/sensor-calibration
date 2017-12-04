@@ -184,8 +184,8 @@ for exp in expriment_dirs:
 
         # Only care about readings from same time
         shared_seconds = set(powerdue_seconds) & set(app_seconds)
-        pd_df = pd_df[pd_df.unixtime.isin(shared_secons)]
-        app_df = app_df[app_df.app_unixtime.isin(shared_secons)]
+        pd_df = pd_df[pd_df.unixtime.isin(shared_seconds)]
+        app_df = app_df[app_df.app_unixtime.isin(shared_seconds)]
 
         new_df_rows = []
         for sec in shared_seconds:
