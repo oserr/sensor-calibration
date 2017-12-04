@@ -28,6 +28,9 @@ from os import path
 from os import makedirs
 
 
+DEBUG = True
+
+
 def normalize_rows(powerdue, app):
     '''Creates a new set of data so that the number of rows in the powerdue
     data frame match the number of rows in the app data frame.
@@ -76,9 +79,9 @@ def normalize_rows(powerdue, app):
             # Get the time stamp
             new_row = [row1[0]]
             for a, b in zip(row1[1:], row2[1:]):
-                new_row += (a+b) / 2
+                new_row.append((a+b) / 2)
             # Append the new row
-            avg_rows += new_row
+            avg_rows.append(new_row)
         first_rows.extend(avg_rows)
         assert len(first_rows) == pr, 'row numbers do not match'
         powerdue_rows = powerdue.values.tolist()
@@ -86,7 +89,7 @@ def normalize_rows(powerdue, app):
         for prow, arow in zip(powerdue_rows, first_rows):
             # Don't include time from arow
             prow.extend(arow[1:])
-            new_rows += prow
+            new_rows.append(prow)
     else:
         # powerdue data frame contains more readings
         diff_rows = pr - ar
@@ -100,7 +103,7 @@ def normalize_rows(powerdue, app):
         for prow, arow in zip(powerdue_rows, app_rows):
             # Don't include time from arow
             prow.extend(arow[1:])
-            new_rows += prow
+            new_rows.append(prow)
     return new_rows
 
 
@@ -163,7 +166,6 @@ all_col_names = pd_col_names + app_col_names[1:]
 
 no_output_file_msg = 'Unable to create new data file from %s and %s'
 
-DEBUG = True
 
 # Process data files
 for exp in expriment_dirs:
@@ -189,9 +191,9 @@ for exp in expriment_dirs:
         # Read PowerSense data file
         app_df = pandas.read_csv(app_file, usecols=power_sense_cols)
         app_df.columns = app_col_names
+        # Convert time as float to int
         app_df.app_unixtime = app_df.app_unixtime.astype(int)
         app_seconds = app_df.app_unixtime.unique()
-        # Convert time as float to int
 
         if DEBUG:
             msg = 'Created app data frame with columns %s'
@@ -243,11 +245,13 @@ for exp in expriment_dirs:
         try:
             makedirs(output_path)
         except OSError as err:
-            if err.errno != errno.EEXISTS:
+            if err.errno != errno.EEXIST:
                 raise
 
         output_file = path.join(output_path, '%s-%d.csv' % (exp, exp_num))
 
         # Create new data frame and save the data
-        new_df = pandas.DataFrame(new_df_rows, names=all_col_names)
-        new_df.to_csv(output_file)
+        new_df = pandas.DataFrame(new_df_rows)
+        new_df.columns = all_col_names
+        new_df.unixtime = new_df.unixtime.astype(int)
+        new_df.to_csv(output_file, index=False)
