@@ -1,7 +1,3 @@
-RTC has set the system time
-Mag Calibration: Wave device in a figure 8 until done!
-4 seconds to get ready followed by 15 seconds of sampling)
-Mag Calibration done!
 time_unix,rotate_x,rotate_y,rotate_z,acc_x,acc_y,acc_z,mag_x,mag_y,mag_z
 1512177495,-0.0019,-0.0023,-0.0008,-78.61,-78.74,935.91,5,-1,-5
 1512177495,0.0007,0.0007,0.0013,-78.61,-76.17,917.72,5,-1,-5
