@@ -31,5 +31,35 @@ Each directory then contains data for three experiments:
    vehicle.
 3. Devices don't share context as each is located in a different moving vehicle.
 
+### Data fields from iOS app
+PowerSense, the iOS app, provides most of the data listed below, but we only use
+a subset of it.
+
+0. timestamp(unix) -> time\_unix
+1. attitude\_roll(radians)
+2. attitude\_pitch(radians)
+3. attitude\_yaw(radians)
+4. rotation\_rate\_x(radians/s) -> rotate\_x
+5. rotation\_rate\_y(radians/s) -> rotate\_y
+6. rotation\_rate\_z(radians/s) -> rotate\_z
+7. gravity\_x(G)
+8. gravity\_y(G)
+9. gravity\_z(G)
+10. user\_acc\_x(G) -> acc\_x
+11. user\_acc\_y(G) -> acc\_y
+12. user\_acc\_z(G) -> acc\_z
+13. magnetic\_field\_x(microteslas) -> mag\_x
+14. magnetic\_field\_y(microteslas) -> mag\_y
+15. magnetic\_field\_z(microteslas) -> mag\_z
+16. latitude(degree)
+17. longitude(degree)
+18. altitude(meter)
+19. speed(m/s)
+20. course(degree)
+21. timestamp(unix)
+22. User Mark
+
+
+
 [1]: http://x-io.co.uk/open-source-imu-and-ahrs-algorithms/
 [2]: https://github.com/MarkusLange/RTCDue
