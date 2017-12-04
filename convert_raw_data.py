@@ -49,7 +49,7 @@ def normalize_rows(powerdue, app):
     '''
     pt = powerdue.unixtime.unique()
     at = app.app_unixtime.unique()
-    assert pt == at and len(pt) == 1,
+    assert pt == at and len(pt) == 1, \
         'powerdue and app data frames don have different times'
     pr, _ = powerdue.shape
     ar, _ = app.shape
@@ -68,7 +68,7 @@ def normalize_rows(powerdue, app):
         # We take average of last_rows
         last_rows = app_rows[pr-diff_rows:]
         len_last_rows = len(last_rows)
-        assert not (len_last_rows & 0x1),
+        assert not (len_last_rows & 0x1), \
             'last_rows shoul have an even number of rows'
         avg_rows = []
         for i in range(0, len_last_rows, 2):
@@ -93,7 +93,7 @@ def normalize_rows(powerdue, app):
         app_rows = app.values.tolist()
         last_app_row = app_rows[-1]
         app_rows.extend([last_app_row] * diff_rows)
-        assert len(app_rows) == pr,
+        assert len(app_rows) == pr, \
             'not repeating last row correct number of times'
         powerdue_rows = powerdue.values.tolist()
         new_rows = []
