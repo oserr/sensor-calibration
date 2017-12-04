@@ -102,6 +102,7 @@ def normalize_rows(powerdue, app):
 
 # directory and file names
 datadir = 'data'
+outdir = 'clean'
 powerdue_dir = 'powerdue'
 ios_dir = 'ios'
 expriment_dirs = ['exp1', 'exp2', 'exp3']
