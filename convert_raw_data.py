@@ -163,17 +163,28 @@ all_col_names = pd_col_names + app_col_names[1:]
 
 no_output_file_msg = 'Unable to create new data file from %s and %s'
 
+DEBUG = True
+
 # Process data files
 for exp in expriment_dirs:
     for exp_num, (pfname, afname) in enumerate(exp_mappings[exp], 1):
 
         powerdue_file = path.join(datadir, powerdue_dir, exp, pfname)
         app_file = path.join(datadir, ios_dir, exp, afname)
+        if DEBUG:
+            msg = 'Reading powerdue file %s and iOS app file %s'
+            print(msg % (powerdue_file, app_file))
 
         # Read Powerdue data file
         pd_df = pandas.read_csv(powerdue_file)
         pd_df.columns = pd_col_names
         powerdue_seconds = pd_df.unixtime.unique()
+
+        if DEBUG:
+            msg = 'Created powerdue data frame with columns %s'
+            print(msg % pd_df.columns)
+            msg = 'The dimensions are %d'
+            print(msg % pd_df.shape)
 
         # Read PowerSense data file
         app_df = pandas.read_csv(app_file, usecols=power_sense_cols)
@@ -182,24 +193,45 @@ for exp in expriment_dirs:
         # Convert time as float to int
         app_df.app_unixtime = app_df.app_unixtime.astype(int)
 
+        if DEBUG:
+            msg = 'Created app data frame with columns %s'
+            print(msg % app_df.columns)
+            msg = 'The dimensions are %d'
+            print(msg % app_df.shape)
+
         # Only care about readings from same time
         shared_seconds = set(powerdue_seconds) & set(app_seconds)
         pd_df = pd_df[pd_df.unixtime.isin(shared_seconds)]
         app_df = app_df[app_df.app_unixtime.isin(shared_seconds)]
 
+        if DEBUG:
+            msg = 'The data frames share %d secons'
+            print(msg % len(share_secons))
+            msg = 'Now dimensions are powerdue: %d app: %d'
+            print(msg % (pd_df.shape, app_df.shape))
+
         new_df_rows = []
         for sec in shared_seconds:
             pd_time_df = pd_df[pd_df.unixtime == sec]
-            pd_rows, _ = pd_time_df.shape
+            pd_rows, c = pd_time_df.shape
+
 
             app_time_df = app_df[app_df.app_unixtime == sec]
-            app_rows, _ = app_time_df.shape
+            app_rows, c = app_time_df.shape
+
+            if DEBUG:
+                msg = 'The shape of pd_time_df: %s'
+                print(msg % pd_time_df.shape)
+                msg = 'The shape of app_time_df: %s'
+                print(msg % app_time_df.shape)
 
             # If we have less than 20 readings on a second then don't include
             if pd_rows < 30 or app_rows < 30:
                 continue
 
             new_rows = normalize_rows(pd_time_df, app_time_df)
+            if not new_rows:
+                print('new_rows does not contain any rows')
             new_df_rows.extend(new_rows)
 
         if not new_df_rows:
