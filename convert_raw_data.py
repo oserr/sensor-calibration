@@ -254,4 +254,7 @@ for exp in expriment_dirs:
         new_df = pandas.DataFrame(new_df_rows)
         new_df.columns = all_col_names
         new_df.unixtime = new_df.unixtime.astype(int)
+        # Multiply all sensor values by 1000
+        for col in all_col_names[1:]:
+            new_df[col] = new_df[col].map(lambda x: x*1000)
         new_df.to_csv(output_file, index=False)
