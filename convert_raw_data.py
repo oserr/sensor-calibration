@@ -100,6 +100,41 @@ def normalize_rows(powerdue, app):
     return new_rows
 
 
+# directory and file names
+datadir = 'data'
+powerdue_dir = 'powerdue'
+ios_dir = 'ios'
+expriment_dirs = ['exp1', 'exp2', 'exp3']
+exp1_mappings = [
+    # powerdue files, app files
+    ('exp1-2.csv', 'exp1-1.csv'),
+    ('exp1-3.csv', 'exp1-2.csv'),
+    ('exp1-4.csv', 'exp1-3.csv'),
+    ('exp1-5.csv', 'exp1-4.csv'),
+    ('exp1-6.csv', 'exp1-5.csv'),
+]
+exp2_mappings = [
+    # powerdue files, app files
+    ('exp2-2.csv', 'exp2-2.csv'),
+    ('exp2-3.csv', 'exp2-3.csv'),
+    ('exp2-4.csv', 'exp2-4.csv'),
+    ('exp2-5.csv', 'exp2-5.csv'),
+    ('exp2-6.csv', 'exp2-6.csv'),
+]
+exp3_mappings = [
+    # powerdue files, app files
+    ('exp3-1.csv', 'exp3-1.csv'),
+    ('exp3-2.csv', 'exp3-2.csv'),
+    ('exp3-3.csv', 'exp3-3.csv'),
+    ('exp3-4.csv', 'exp3-4.csv'),
+    ('exp3-5.csv', 'exp3-5.csv'),
+]
+exp_mappings = {
+    'exp1': exp1_mappings,
+    'exp2': exp2_mappings,
+    'exp3': exp3_mappings,
+}
+
 # Columns from PowerSense that we are interested in.
 power_sense_cols = [0, 4, 5, 6, 10, 11, 12, 13, 14, 15]
 
