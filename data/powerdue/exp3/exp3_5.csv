@@ -1,7 +1,3 @@
-TC has set the system time
-Mag Calibration: Wave device in a figure 8 until done!
-4 seconds to get ready followed by 15 seconds of sampling)
-Mag Calibration done!
 time_unix,rotate_x,rotate_y,rotate_z,acc_x,acc_y,acc_z,mag_x,mag_y,mag_z
 1512180817,0.0196,0.0039,-0.0004,-35.40,-32.78,1012.08,3,-15,-5
 1512180817,-0.0048,0.0001,-0.0023,-39.67,-28.75,1004.70,3,-15,-5
@@ -3389,4 +3385,3 @@ time_unix,rotate_x,rotate_y,rotate_z,acc_x,acc_y,acc_z,mag_x,mag_y,mag_z
 1512180906,-0.1264,0.0828,-0.0344,-240.17,-35.34,1067.99,94,410,-550
 1512180906,-0.0210,-0.0069,0.0342,-142.46,-117.13,1037.54,94,410,-550
 1512180907,0.0019,0.0017,-0.0088,-73.61,-118.41,973.51,94,410,-550
-
