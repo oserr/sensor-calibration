@@ -51,7 +51,9 @@ def normalize_rows(powerdue, app):
     ar, _ = app.shape
     if pr == ar:
         # powerdue and app contain same number of readings
-        new_df = pandas.concat([powerdue, app], axis=1, ignore_index=True)
+        app_no_time = app[app_col_names[1:]]
+        combined = [powerdue, app_no_time]
+        new_df = pandas.concat(combined, axis=1, ignore_index=True)
         new_rows = new_df.values.tolist()
     elif pr < ar:
         # powerdue data frame contains less readings
@@ -78,7 +80,8 @@ def normalize_rows(powerdue, app):
         powerdue_rows = powerdue.values.tolist()
         new_rows = []
         for prow, arow in zip(powerdue_rows, first_rows):
-            prow.extend(arow)
+            # Don't include time from arow
+            prow.extend(arow[1:])
             new_rows += prow
     else:
         # powerdue data frame contains more readings
@@ -91,7 +94,8 @@ def normalize_rows(powerdue, app):
         powerdue_rows = powerdue.values.tolist()
         new_rows = []
         for prow, arow in zip(powerdue_rows, app_rows):
-            prow.extend(arow)
+            # Don't include time from arow
+            prow.extend(arow[1:])
             new_rows += prow
     return new_rows
 
@@ -99,13 +103,23 @@ def normalize_rows(powerdue, app):
 # Columns from PowerSense that we are interested in.
 power_sense_cols = [0, 4, 5, 6, 10, 11, 12, 13, 14, 15]
 
+# Names of columns for fields from PowerDue.
+pd_col_names = [
+    'unixtime',
+    'rx', 'ry', 'rz',
+    'ax', 'ay', 'az',
+    'mx', 'my', 'mz'
+]
+
 # Names of columns for fields from app.
 app_col_names = [
     'app_unixtime',
-    'app_rot_x', 'app_rot_y', 'app_rot_z',
-    'app_acc_x', 'app_acc_y', 'app_acc_z',
-    'app_mag_x', 'app_mag_y', 'app_mag_z'
+    'apprx', 'appry', 'apprz',
+    'appax', 'appay', 'appaz',
+    'appmx', 'appmy', 'appmz'
 ]
+
+all_col_names = pd_col_names + app_col_names[1:]
 
 # Read Powerdue data file
 pd_file = 'powerdue_file.csv'
