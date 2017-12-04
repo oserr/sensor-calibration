@@ -21,7 +21,11 @@
 # for the PowerSense data, and create an output file with all of the exprimental
 # data for a single experiment.
 
+
 import pandas
+import errno
+from os import path
+from os import makedirs
 
 
 def normalize_rows(powerdue, app):
@@ -157,32 +161,61 @@ app_col_names = [
 
 all_col_names = pd_col_names + app_col_names[1:]
 
-# Read Powerdue data file
-pd_file = 'powerdue_file.csv'
-pd_df = pandas.read_csv(pd_file)
-data_times = pd_df.unixtime.unique()
+no_output_file_msg = 'Unable to create new data file from %s and %s'
 
-# Read PowerSense data file
-app_file = 'app_file.csv'
-app_df = pandas.read_csv(app_file, usecols=power_sense_cols)
-app_df.columns = app_col_names
-# Convert time as float to int
-app_df.app_unixtime = app_df.app_unixtime.astype(int)
-app_df = app_df[app_df.app_unixtime.isin(data_times)]
+# Process data files
+for exp in expriment_dirs:
+    for exp_num, (pfname, afname) in enumerate(exp_mappings[exp], 1):
 
-# For each time, find out how many readings we have, and then normalize by
-# averaging the values of the data frame that has more readings.
-new_df_rows = []
-for sec in data_times:
-    pd_time_df = pd_df[pd_df.unixtime == sec]
-    pd_rows, _ = pd_time_df.shape
+        powerdue_file = path.join(datadir, powerdue_dir, exp, pfname)
+        app_file = path.join(datadir, ios_dir, exp, afname)
 
-    app_time_df = app_df[app_df.app_unixtime == sec]
-    app_rows, _ = app_time_df.shape
+        # Read Powerdue data file
+        pd_df = pandas.read_csv(powerdue_file)
+        pd_df.columns = pd_col_names
+        powerdue_seconds = pd_df.unixtime.unique()
 
-    # If we have less than 20 readings on a second then don't include
-    if pd_rows < 30 or app_rows < 30:
-        continue
+        # Read PowerSense data file
+        app_df = pandas.read_csv(app_file, usecols=power_sense_cols)
+        app_df.columns = app_col_names
+        app_seconds = app_df.app_unixtime.unique()
+        # Convert time as float to int
+        app_df.app_unixtime = app_df.app_unixtime.astype(int)
 
-    new_rows = normalize_rows(pd_time_df, app_time_df)
-    new_df_rows.extend(new_rows)
+        # Only care about readings from same time
+        shared_seconds = set(powerdue_seconds) & set(app_seconds)
+        pd_df = pd_df[pd_df.unixtime.isin(shared_secons)]
+        app_df = app_df[app_df.app_unixtime.isin(shared_secons)]
+
+        new_df_rows = []
+        for sec in shared_seconds:
+            pd_time_df = pd_df[pd_df.unixtime == sec]
+            pd_rows, _ = pd_time_df.shape
+
+            app_time_df = app_df[app_df.app_unixtime == sec]
+            app_rows, _ = app_time_df.shape
+
+            # If we have less than 20 readings on a second then don't include
+            if pd_rows < 30 or app_rows < 30:
+                continue
+
+            new_rows = normalize_rows(pd_time_df, app_time_df)
+            new_df_rows.extend(new_rows)
+
+        if not new_df_rows:
+            print(no_output_file_msg % (powerdue_file, app_file))
+            continue
+
+        # Create the output directory if it has not been created already
+        output_path = path.join(datadir, outdir, exp)
+        try:
+            makedirs(output_path)
+        except OSError as err:
+            if err.errno != errno.EEXISTS:
+                raise
+
+        output_file = path.join(output_path, '%s-%d.csv' % (exp, exp_num))
+
+        # Create new data frame and save the data
+        new_df = pandas.DataFrame(new_df_rows, names=all_col_names)
+        new_df.to_csv(output_file)
