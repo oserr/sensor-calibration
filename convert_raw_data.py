@@ -252,9 +252,29 @@ for exp in expriment_dirs:
 
         # Create new data frame and save the data
         new_df = pandas.DataFrame(new_df_rows)
+        nrow, _ = new_df.shape
+        ones = [1] * nrow
+        zeros = [0] * nrow
         new_df.columns = all_col_names
         new_df.unixtime = new_df.unixtime.astype(int)
-        # Multiply all sensor values by 1000
+
+        # Normalize values
         for col in all_col_names[1:]:
-            new_df[col] = new_df[col].map(lambda x: x*1000)
-        new_df.to_csv(output_file, index=False, float_format='%.3f')
+            mean = new_df[col].mean()
+            std = new_df[col].std()
+            new_df[col] = (new_df[col] - mean) / std
+
+        # Add target values (context vs no context)
+        if exp == 'exp1':
+            new_df['incontext'] = pandas.Series(ones).values
+            new_df['nocontext'] = pandas.Series(zeros).values
+        else:
+            new_df['incontext'] = pandas.Series(zeros).values
+            new_df['nocontext'] = pandas.Series(ones).values
+
+        if DEBUG:
+            msg = 'column names are %s'
+            print(msg % new_df.columns)
+
+        new_df = new_df[all_col_names[1:] + ['incontext', 'nocontext']]
+        new_df.to_csv(output_file, index=False, float_format='%.6f')
