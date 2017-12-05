@@ -11,3 +11,6 @@
 
 # Ignore conda env dir
 env
+
+# Ignore jupyter checkpoints
+.ipynb_checkpoints/
