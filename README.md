@@ -59,6 +59,18 @@ a subset of it.
 21. timestamp(unix)
 22. User Mark
 
+## Installing and using python packages
+
+1. Install anaconda toolchain
+2. From within the project folder, run `conda env create`. This will install the
+   packages listed in `environment.yml`.
+    * To create the enviornment globally, use the flag `-n MYENV` to create the
+      environment with name MYENV.
+    * To create the enviornment locally, use the flag `-p PATHTOENV` to create
+      the environment at PATHTOENV.
+3. Now that the environment has been created, you can activate the environment
+   by running `source activate ENV`, where ENV is either the name of the global
+   environment or the path to the local environment.
 
 
 [1]: http://x-io.co.uk/open-source-imu-and-ahrs-algorithms/
