@@ -1,3 +1,4 @@
+# Ignore latex output files
 .DS_Store
 *log
 *pdf
@@ -7,3 +8,6 @@
 .*.swp
 *bbl
 *blg
+
+# Ignore conda env dir
+env
