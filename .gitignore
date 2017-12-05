@@ -17,3 +17,4 @@ env
 
 # Ignore converted data files in clean dir
 clean/*
+data/clean/*
