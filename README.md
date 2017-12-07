@@ -59,11 +59,12 @@ a subset of it.
 21. timestamp(unix)
 22. User Mark
 
-## Installing and using python packages
 
+## Installing and using python packages
 1. Install anaconda toolchain
-2. From within the project folder, run `conda env create`. This will install the
-   packages listed in `environment.yml`.
+2. From within the project folder, run
+   `conda env create -f environment-linux.yml`. This will install the packages
+    listed in `environment-linux.yml`.
     * To create the enviornment globally, use the flag `-n MYENV` to create the
       environment with name MYENV.
     * To create the enviornment locally, use the flag `-p PATHTOENV` to create
