@@ -60,19 +60,38 @@ a subset of it.
 22. User Mark
 
 
-## Installing and using python packages
-1. Install anaconda toolchain
-2. From within the project folder, run
-   `conda env create -f environment-linux.yml`. This will install the packages
-    listed in `environment-linux.yml`.
-    * To create the enviornment globally, use the flag `-n MYENV` to create the
-      environment with name MYENV.
-    * To create the enviornment locally, use the flag `-p PATHTOENV` to create
-      the environment at PATHTOENV.
-3. Now that the environment has been created, you can activate the environment
-   by running `source activate ENV`, where ENV is either the name of the global
-   environment or the path to the local environment.
+## Replicating analysis
+To replicate the work on your end, you can follow the instructions below. Note
+the instuctions below are for Linux and Mac. You might be able to use the same
+environment files on Windows, however, if there are errors, then you can create
+the environment manually with conda by creating an environment with the
+following packages: pandas, tensorflow, sickit-learn, jupyter, matplotlib,
+numpy, scipy, kears, and python=3.
 
+1. [Install][3] anaconda toolchain.
+2. From within the project folder, run
+   `conda env create -n envname -f envfile.yml`. This will install the packages
+   listed in `envfile.yml` in an environment named `envname`.
+    * To install for Linux, use the file `environment-linux.yml`.
+    * To install for Mac, use the file `environment-mac.yml`.
+    * If you want to create the environment file locally instead of globally,
+      use the `-p envpath` instead of `-n envfile`.
+3. Now that the environment has been created, you can activate the environment
+   by running `source activate envname`, where `envname` is either the name of
+   the global environment or the path to the local environment.
+
+The steps above create the environment. To repliate the results, proceed by
+
+1. Create the input data files: run `python convert_raw_data.py`.
+2. Launch the jupyter notebook: `jupyter notebook`.
+3. From the browser tab opened by jupyter, launch `context.ipynb` by double
+   clicking on it.
+4. Run all the cells in `context.ipynb`.
+
+Note that these instructions install TensorFlow without GPU support. To
+install TensorFlow with GPU support, use conda to uninstall `tensorflow` and
+then install `tensorflow-gpu`.
 
 [1]: http://x-io.co.uk/open-source-imu-and-ahrs-algorithms/
 [2]: https://github.com/MarkusLange/RTCDue
+[3]: https://conda.io/docs/user-guide/install/index.html
