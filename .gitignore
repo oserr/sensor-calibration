@@ -18,3 +18,6 @@ env
 # Ignore converted data files in clean dir
 clean/*
 data/clean/*
+
+# Ignore plot of predictions vs actual results
+prediction_vs_actual.png
