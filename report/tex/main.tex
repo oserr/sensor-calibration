@@ -84,7 +84,10 @@ There is a wide range of possibilities in how devices and sensors are used to
 determine context from a wide variety of physical stimuli, or how the scale of
 context is defined (e.g., school building vs a single room); however, we limit
 our research to the small context of a car, and to 3-dimensional orientation,
-acceleration, and magnetic sensor readings.
+acceleration, and magnetic sensor readings. Instead of relying on traditional
+methods (e.g, Kalam filter) to determine context from the type of sensors we are
+using, we employ a convolutional neural network, a popular technique for solving
+computer vison problems, to create a predictive model.
 
 \section{Problem Statement}
 
@@ -107,6 +110,8 @@ based on the sensor data collected from carefully chosen sensors. Finally, the
 paper demonstrates that the accuracy of an existing context aware service or
 application is significantly enhanced when run in conjunction with the proposed
 orienttion discovery service.
+
+\section{Related Work}
 
 
 \begin{figure}[!t]\centering
