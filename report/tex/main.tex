@@ -60,25 +60,31 @@ Contextual security, sensor funsion, Madgwick, device orientation.
 \section{Introduction}
 
 \IEEEPARstart{W}{ith}
-the growing number of IoT devices, securely pairing a new device into an existing
-set of devices is an extremely important yet burdensome task. Traditionally,
-these devices are paired manually, where an operator sets up an authentication
-with the existing network of devices. Specifically, we address the problem of a
-platoon ghost attack wherein an attacker device spoofs presence within a platoon
-to gain admission and subsequently execute malicious attacks \cite{Han}. To
-address such concerns, we present ConAuth, a novel autonomous admission scheme
-which binds devices to their physical context (i.e., locality).
+the growing number of IoT devices, securely pairing a new device into an
+existing set of devices is an extremely important yet burdensome task.
+Traditionally, these devices are paired manually, where an operator sets up an
+authentication with the existing network of devices. Specifically, we address
+the problem of a platoon ghost attack wherein an attacker device spoofs presence
+within a platoon to gain admission and subsequently execute malicious attacks
+\cite{Han}. To address such concerns, we explore the notion of fingerprinting
+device sensor readings for a device's context.
 
-ConAuth exploits the findings that devices in a local setting experience similar context
-to prove to each other over time that they are co-present \cite{Han}.
-Specifically, they experience similar events (e.g., people coming inside the
-room, knocking on the door). Our approach is based on the ability of the devices
-to capture this context, using sensors that both the devices share.
+Devices that share context are expected to experience similar events. For
+example, two magnetometers in proximity are likely to processes similar events
+if a magnetic strip is drawn close to them. Even if the readings are not exactly
+the same, the devices are likely to exhibit similar patterns as a result of the
+magnetic disturbance caused by the magnetic strip. Two video cameras, despite
+having different points of view, might be able to determine that they share
+context on the basis that both of them detect an object with similar shape and
+color; for example, if one of the video cameras records an invidual with a blue
+shirt walking toward it, and the other camera records an invidual with a blue
+shirt walking away from it.
 
-We design and implement the ConAuth protocol and evaluate a proof-of-concept
-implementation using a set of experiments. Our implementation will demonstrate
-that devices in the same room can be sufficiently distinguished by their context
-and this can be utilized to thwart platoon ghost attacks and similar misbehavior.
+There is a wide range of possibilities in how devices and sensors are used to
+determine context from a wide variety of physical stimuli, or how the scale of
+context is defined (e.g., school building vs a single room); however, we limit
+our research to the small context of a car, and to 3-dimensional orientation,
+acceleration, and magnetic sensor readings.
 
 \section{Problem Statement}
 
