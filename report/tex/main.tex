@@ -113,6 +113,19 @@ orienttion discovery service.
 
 \section{Related Work}
 
+To complete the work for this paper, we relied on multiple open source libraries
+to collect data, and to build a neural network architecture to generate a model
+for predicting the context of a device. We were able to use the MPU9250 SparkFun
+library \cite{MPU9250}, with minor modifications, to collect three-dimensional
+orientation, acceleration, and magnetic sensor readings from the PowerDue. To be
+able to compare the data from the PowerDue and the mobile phone, readings from
+both devices had to be time-stamped, and the RTCDue \cite{RTCDue} and Time
+\cite{TimeLib} Arduino libraries allowed us to generate timestamps with the
+PowerDue. Implementing neural network architectures is not a trivial task, but
+Keras \cite{Keras}, a python deep learning library which uses TensorFlow as a
+backend, made it easy for us to create a neural net that we could then train and
+use to make predictions.
+
 
 \begin{figure}[!t]\centering
 	\includegraphics[width=8.5cm]{phoneOrientation}
