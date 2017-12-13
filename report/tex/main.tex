@@ -235,9 +235,48 @@ to the file.
 
 \subsection{Aggregating data}
 
+There are a number of reasons why we aggregated the data from two data files to
+one data file per experiment. One is convenience (e.g., uploading one data file
+as a data frame vs multiple data files), but more importantly, to match the
+readings from each device, which we did in a three step process.
+
+\begin{enumerate}
+\item Find the timestamps (i.e., seconds) where both devices output readings.
+\item From each device's data file, select the readings with a timestamp from
+      step 1.
+\item In cases where the number of readings for a given second don't match,
+      apply a transformation to make the number of readings for that second
+      equal for both devices.
+\end{enumerate}
+
+Even though we tried to start and stop reading from each device at the same
+time, it is inevitable to have slight variation when taking samples from more
+devices, especially if there is a human element to the experiment, which there
+was in our expriments because we started the readings manually by flashing the
+program on the PowerDue and pressing a button the on the PowerSense app.
+Therefore, we used only readings with timestamps in existing in both data files,
+per step 2.
+
+In step 3, we had to apply some transformations because PowerSense produced 50
+readings per second, while PowerDue only produced 38 readings per second. To
+smooth-out this difference, we mapped pairs of readings from PowerSense into a
+single reading with the average of both readings, but we applied this only to
+the tail end of the readings from PowerSense. For example, suppose $PD_s$ is the
+set of readings $a_1, a_2, ..., a_{38}$ from the PowerDue, and $PS_s$ is the set
+of readings $b_1, b_2, ..., b_{50}$ from PowerSense, for second $s$, and $a_i$
+and $b_i$ represent vectors. Then the transformation applied to $PS_s$ would map
+the last 24 readings to 12 readings, as indicated below:
+
+\begin{align}
+    b'_{26} &= \frac{b_{26} + b_{27}}{2} \\
+    b'_{27} &= \frac{b_{28} + b_{29}}{2} \\
+    \vdots \\
+    b'_{38} &= \frac{b_{49} + b_{50}}{2}
+\end{align}
+
 \subsection{Data normalization}
 
-\subsection{Neural network drchitecture}
+\subsection{Neural network architecture}
 
 \subsection{Training the network}
 
