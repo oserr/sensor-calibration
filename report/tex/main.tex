@@ -276,6 +276,25 @@ the last 24 readings to 12 readings, as indicated below:
 
 \subsection{Data normalization}
 
+After aggregating data by time, we normalized the data in two ways:
+
+\begin{itemize}
+\item Normalized all the data values (i.e., x, y, z and values for orientation,
+      acceleration, and magnetic), so that the mean would be zero and the
+      standard deviation 1.
+\item Made all input arrays, obtained from each aggregate experiment file, have
+      the same dimensions.
+\end{itemize}
+
+We normalized all the data values because having training data with a mean of
+zero tends to seep up convergence \cite{DLTricks}. We also normalized every
+input array to have the same number of rows, in order to be able to use a neural
+network architecture with an convolutional layer and a dense output layer. To
+make all the arrays have the same number of rows, we computed the average number
+of rows per array (15 total arrays, one per experiment trial), and removed rows
+from the end of arrays with more rows, or repeated the last row at the end of
+arrays with less rows.
+
 \subsection{Neural network architecture}
 
 \subsection{Training the network}
