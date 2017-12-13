@@ -142,6 +142,8 @@ To build a model to determine whether two devices share the same context, we
 took the following approach:
 
 \begin{enumerate}
+\item Modify the MPU9250 library to work with the PowerDue, thus allowing us to
+      read data from the sensor.
 \item Establish a clock on the PowerDue, to allow us to synchronize readings
       from the MPU9250 with readings from PowerSense.
 \item Run three experiments to collect data from the MPU9250 and PowerSense iOS
@@ -156,14 +158,39 @@ took the following approach:
 
 \subsection{Time Synchronization}
 
-The phone attitude is obtained by doing continuos integration on the angular
-velocity, and by taking the difference between the geoframe, the earth
-coordinate sytem, and the body-frame, the coordinate system of the device's
-body. Per \cite{PhoneAttitude}, the best approach for calculating the difference
-between both coordinate systems is the Euler Axis/Angle method, which solves the
-problem from the geoframe's perspective. To compute the integration, the total
-device motion is split into multiple time windows, and the rotation of the
-device is the accumulated rotation of all the time windows.
+In order to be able to compare the readings from both devices, each reading had
+to be timestamped, and the timestamps from the devices had to be relatable,
+i.e., one timestamp could be converted to the other. PowerSense readings
+provided a unix timestamp by default, and this was ideal, but the PowerDue did
+not not have a system clock established, i.e., calling a clock time function
+would begin counting time from zero.
+
+To establish the system clock on the PowerDue, we used RTCDue, a library that
+allows you to set the time in different ways \cite{RTCDue}, e.g., using a
+unixtime stamp or a date. Ideally, we would have prefered to use the NTP
+protocol to set the time on the PowerDue, because the time would have a greater
+degree of accuracy. Unfortunately, we were unable to use NTP because we were
+unable to get the Wi-Fi module to work. We tried approaches in different example
+modules found within the PowerDue libraries, but none of them worked. Therefore,
+we resorted to a compile-time mechanism for setting the time.
+
+To set the time at compile-time, we passed in the macros \texttt{\_\_TIME\_\_}
+and \texttt{\_\_DATE\_\_} to couple of RTCDue library functions to set the time
+and date. Essentially, we would used the compiler to pass in the time when it
+built the binary. Simply setting the time like this did not yield a very
+accurate time, because of the delay between macro substitution at compile-time
+and program execution. To offset this delay, we reset the time at runtime by
+adding seconds to the time set with \texttt{\_\_TIME\_\_} and
+\texttt{\_\_DATE\_\_}, essentially using inspection to pick the number of
+seconds that made the time reported by PowerDue closer to the time reported by
+our machines and PowerSense.
+
+After setting the system clock, it was simply a matter of using the Time library
+function \texttt{now} \cite{TimeLib} to output the unix timestamp with the
+readings from the MPU9250. Ideally, we would have preferred a millisecond
+accuracy level, which we might have obtained using NTP, but the compile-time
+method of setting the time provided accuracy of within a second, allowing us to
+carry on with the experiments.
 
 \begin{figure}[!t]\centering
 	\includegraphics[width=5.5cm]{acceleration}
@@ -171,16 +198,6 @@ device is the accumulated rotation of all the time windows.
 \end{figure}
 
 \subsection{Madgwick algorithm}
-
-Historically, the Kalman filter, and other techniques, including fuzzy
-processing and frequency domain filters, have been used as the basis for
-orientation algorithms; however, these techniques have several disadvantages
-\cite{Madgwick}. For example, the Kalma filter is computationally expensive,
-and some of the other techniques are only effective under limited conditions
-\cite{Madgwick}. Therefore, we plan to use Madgwick, an algorithm that employs a
-quaternion representation of orientation, which has had positive results despite
-the fact that it does not require the heavy computational load, or high
-frequency sampling of a Kalman-filter based algorithm \cite{Madgwick}.
 
 \section{Experiments}
 
