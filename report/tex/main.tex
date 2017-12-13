@@ -155,6 +155,18 @@ took the following approach:
 \item Evaluate the model.
 \end{enumerate}
 
+\subsection{Modifying MPU9250 library}
+
+The MPU9250 library, which implements an interface to interact with the MPU9250
+sensor, which contains a 3D gyroscope, accelerometer, and magnetometer, required
+only one modification to work with the PowerDue, updating the instances of the
+\texttt{Wire} interface with \texttt{Wire1}, given that PowerDue has two wire
+interfaces. In addition to this modification, we used a library example module
+\cite{MPU9250Ex} as the basis for the PowerDue module that we used to obtain
+readings from the MPU9250 sensor. We disabled most of the logic in the example
+module, but nonetheless relied on critical sections of the module, such as
+initializing and calibrating the sensor.
+
 \subsection{Time Synchronization}
 
 In order to be able to compare the readings from both devices, each reading had
