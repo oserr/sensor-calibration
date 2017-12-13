@@ -138,32 +138,22 @@ using neural networks effectively.
 
 \section{Approach}
 
-The process to determine whether two devices share the same context consists of
-the following steps:
+To build a model to determine whether two devices share the same context, we took the following approach:
 
 \begin{enumerate}
-\item Determining the orientation of the devices in question.
-\begin{enumerate}
-\item Obtain sensor data from PowerDue with a sensor that contains a gyroscope,
-      and possibly an accelerometer.
-\item Obtain sensor data from a mobile phone using iOS app PowerSense. See
-      Figure~\ref{fig:fig2} and Figure~\ref{fig:fig3} for an example of the type
-      of data that may be collected with PowerSense.
-\item Compute orientation difference using Madgwick algorithm.
-\end{enumerate}
-\item Correlating the sensor data to determine whether sensors share context.
+\item Establish a clock on the PowerDue, to allow us to synchronize readings
+      from the MPU9250 with readings from PowerSense.
+\item Run three experiments to collect data from the MPU9250 and PowerSense iOS
+      app. See Figure~\ref{fig:fig2} and Figure~\ref{fig:fig3} for an example of
+      the type of data collected with PowerSense.
+\item Use the unix timestamps to aggregate MPU9250 and PowerSense data.
+\item Normalize the data.
+\item Build a neural network architecture.
+\item Train the neural network.
+\item Evaluate the model.
 \end{enumerate}
 
-2 depends on 1, because knowing the orientation, or attitude, of two devices
-allows us take the difference between a devices body-orientation, as depicted in
-Figure~\ref{fig:fig1}, with respect to the geoframe, the earth's orientation. Existing
-algorithms, as described in the next two subsections, can determine the
-orientation, but we've chosen to use Madgwick because it is open source and well
-suited for small embedded devices \cite{Madgwick}. The purpose of our remaining
-work is to determine 2, a technique for correlating data between two or more
-devices to allow us to determine shared context.
-
-\subsection{Computing the attitude of a device}
+\subsection{Time Synchronization}
 
 The phone attitude is obtained by doing continuos integration on the angular
 velocity, and by taking the difference between the geoframe, the earth
