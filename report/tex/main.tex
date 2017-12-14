@@ -297,6 +297,52 @@ arrays with less rows.
 
 \subsection{Neural network architecture}
 
+Our neural network architecture consists of 5 layers:
+
+\begin{enumerate}
+\item Input convolutional layer with a relu activation function.
+\item Hidden convolutional layer with a relu activation function.
+\item Hidden max pooling layer.
+\item Hidden dense layer with a relu activation function.
+\item Output dense layer with softmax activation function.
+\end{enumerate}
+
+With Keras \cite{Keras}, it was trivial to implement the network, as the
+following lines of python code demonstrate
+
+\begin{lstlisting}
+model = Sequential()
+model.add(Conv2D(32, kernel_size=(3, 3),
+             activation='relu',
+             input_shape=input_shape))
+model.add(Conv2D(64, (3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+model.add(Flatten())
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(2, activation='softmax'))
+\end{lstlisting}
+
+Even though the data we collected is inherently time dependent, the way our
+experiments were carried makes time less of an important variable, because we
+did not carry out any experiments in which we tested changing context, i.e.,
+going from sharing context to not sharing context. Such an experiment would have
+required us to look at how the variables change over time, precisely so that we
+could devise a model that can distinguish the moment when a device's state
+changes from being in context to not being in context.
+
+In our experiments, the devices are either in context, or not in context, there
+is no change from one to the other. This motivated our decision to use a
+convolutional neural network, where time is not a factor. We simply wanted to
+classify the input as either in context, or not in context, hence an output
+layer using a softmax function \cite{DeepLearning,LeCunn}.
+
+From the code, it may seem like the network also has a \texttt{Dropout} layer;
+however, dropout is not inherently part of the network, but rather a technique
+used to randomly drop units of the network during training in order to prevent
+overfitting of the model \cite{Droptout}.
+
 \subsection{Training the network}
 
 \subsection{Evaluating results}
