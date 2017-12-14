@@ -156,6 +156,16 @@ took the following approach:
 \item Evaluate the model.
 \end{enumerate}
 
+\begin{figure}[!t]\centering
+	\includegraphics[width=5.5cm]{acceleration}
+	\caption{User acceleration with iOS app PowerSense.}\label{fig:fig2}
+\end{figure}
+
+\begin{figure}[!t]\centering
+	\includegraphics[width=5.5cm]{magnetic_field}
+	\caption{Magnetic field with iOS app PowerSense.}\label{fig:fig3}
+\end{figure}
+
 \subsection{Modifying MPU9250 library}
 
 The MPU9250 library, which implements an interface to interact with the MPU9250
@@ -203,11 +213,6 @@ readings from the MPU9250. Ideally, we would have preferred a millisecond
 accuracy level, which we might have obtained using NTP, but the compile-time
 method of setting the time provided accuracy of within a second, allowing us to
 carry on with the experiments.
-
-\begin{figure}[!t]\centering
-	\includegraphics[width=5.5cm]{acceleration}
-	\caption{User acceleration with iOS app PowerSense.}\label{fig:fig2}
-\end{figure}
 
 \subsection{Experiments}
 
@@ -396,11 +401,6 @@ analysis on our PCs, but ideally it would be more useful to deploy the model
 on the PowerDue, perhaps a task for future work.
 
 \section{Conclusion}
-
-\begin{figure}[!t]\centering
-	\includegraphics[width=5.5cm]{magnetic_field}
-	\caption{Magnetic field with iOS app PowerSense.}\label{fig:fig3}
-\end{figure}
 
 % References
 
