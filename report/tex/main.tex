@@ -345,6 +345,12 @@ overfitting of the model \cite{Droptout}.
 
 \subsection{Training the network}
 
+Given the small amount of data at our disposal, we used k-fold cross-validation
+with $k=15$, or leave-one-out cross-validation \cite{StatLearn}. To use this
+approach, we created and trained a model with 15 different sets of training
+data, each time evaluating the model on a single instance, the one left out, of
+the data.
+
 \subsection{Evaluating results}
 
 
