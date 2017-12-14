@@ -360,6 +360,23 @@ the data.
 
 \subsection{Evaluating results}
 
+Overall, the model's prediction rate is somewhat surprising, because it predicts
+8 out of 15 instances correctly, despite the small amount of data used to train
+the models. However, on closer inspection, the results do not inspire a lot of
+confidence on the model's prediction effectiveness, given that it predicts
+almost all of the samples, except two, as not sharing context, and in both cases
+where it predicts that the devices are sharing context it does so incorrectly.
+
+Figure~\ref{fig:model_eval} illustrates the prediction results. The graph on the
+left contains the predicted values, the graph on the right contains the actual
+values, 1 and 0 represent context shared or not shared in the vertical axis, and
+the horizontal axis represents the experiment trial. Thus, we can see that the
+models predicts that data for trials one through five, where the context is
+shared, as context not being shared. Therefore, and it may be a side effect of
+the fact that we have more samples of data where the devices are not sharing
+context, that the model is biased toward making predictions for context not
+shared.
+
 \begin{figure}[!t]\centering
 	\includegraphics[width=5.5cm]{prediction_vs_actual}
 	\caption{Model predictions vs actual data for devices sharing or not sharing
