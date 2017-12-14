@@ -10,6 +10,24 @@ devices rarely share the same orientation, making it difficult to correlate
 data from multiple devices. Therefore, we explore sensor calibration techniques
 to solve this problem.
 
+## Repo Info
+* `data`: Contains data collected in experiments.
+* `guidelines`: Project guidelines.
+* `gyro`: The PowerDue module used to collect readings from the MPU9250.
+* `madgwick`: Madgwick MATLAB algorithm scripts.
+* `milestone`: Project milestone report.
+* `mpu9250`: Git submodule for the git repo of the MPU9250 library.
+* `report`: The latex files for the final project report.
+* `rtcdue`: Git submodule for the git repo of the RTCDue library.
+* `context.ipynb`: IPython notebook implementing, training, and evaluating the
+   neural network model.
+* `convert_raw_data.py`: Python script to aggregate the raw data into files
+   with readings from the same time.
+* `environment-linux.yml`: A conda environment file that can be used to create
+   the development environment needed to replicate the work on a Linux machine.
+* `environment-mac.yml`: A conda environment file that can be used to create
+   the development environment needed to replicate the work on a Mac.
+
 ## Misc Notes
 * PowerDue has MPU\_9250, which has a gyroscope and accelerometer.
 * The SparkFun library for the sensor can be updated with the correct address
