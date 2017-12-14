@@ -199,8 +199,8 @@ modules found within the PowerDue libraries, but none of them worked. Therefore,
 we resorted to a compile-time mechanism for setting the time.
 
 To set the time at compile-time, we passed in the macros \texttt{\_\_TIME\_\_}
-and \texttt{\_\_DATE\_\_} to couple of RTCDue library functions to set the time
-and date. Essentially, we would used the compiler to pass in the time when it
+and \texttt{\_\_DATE\_\_} to a couple of RTCDue library functions to set the
+time and date. Essentially, we used the compiler to pass in the time when it
 built the binary. Simply setting the time like this did not yield a very
 accurate time, because of the delay between macro substitution at compile-time
 and program execution. To offset this delay, we reset the time at runtime by
@@ -261,8 +261,8 @@ Even though we tried to start and stop reading from each device at the same
 time, it is inevitable to have slight variation when taking samples from more
 devices, especially if there is a human element to the experiment, which there
 was in our expriments because we started the readings manually by flashing the
-program on the PowerDue and pressing a button the on the PowerSense app.
-Therefore, we used only readings with timestamps in existing in both data files,
+program on the PowerDue and pressing a button on the PowerSense app.
+Therefore, we used only readings with timestamps existing in both data files,
 per step 2.
 
 In step 3, we had to apply some transformations because PowerSense produced 50
@@ -295,7 +295,7 @@ After aggregating data by time, we normalized the data in two ways:
 \end{itemize}
 
 We normalized all the data values because having training data with a mean of
-zero tends to seep up convergence \cite{DLTricks}. We also normalized every
+zero tends to speed up convergence \cite{DLTricks}. We also normalized every
 input array to have the same number of rows, in order to be able to use a neural
 network architecture with an convolutional layer and a dense output layer. To
 make all the arrays have the same number of rows, we computed the average number
@@ -394,13 +394,12 @@ models, creating a model that does not take into account the fact that the state
 of context being shared is dynamic.
 
 Time is a key ingredient of whether two devices share context or not, and hence
-time should be synchronized down to the level of milliseconds. Using a NTP would
-have been a have made our results more accurate, but it would be even better to
-develop a communication procotol that allows two devices to quickly reach
-consesus on a measure of synchronizity, whether by time, a nonce, or some kind
-of counter. Such a protocol does not need to be tied to hardware or sensors, and
-hence could be applied any time devices are trying to synchronize with each
-other.
+time should be synchronized down to the level of milliseconds. Using NTP would
+have made our results more accurate, but it would be even better to develop a
+communication procotol that allows two devices to quickly reach consesus on a
+measure of synchronizity, whether by time, a nonce, or some kind of counter.
+Such a protocol does not need to be tied to hardware or sensors, and hence could
+be applied any time devices are trying to synchronize with each other.
 
 We only collected 15 samples of data because it was very time consuming to
 collect them - it took us about 3 hours to collect 15 samples. In addition to
@@ -423,7 +422,7 @@ realistic to develop a model that takes this dynamic into account, and hence it
 would be more appropriate to use a different kind of neural network, such as an
 LSTM network, or to simply use a different technique that is more appropriate
 for time series and modelling state. To test such a model, it would be necessary
-to devise experiments where devices share from one state to the other.
+to devise experiments where devices change from one state to the other.
 
 % References
 
