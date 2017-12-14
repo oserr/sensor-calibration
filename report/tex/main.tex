@@ -348,7 +348,7 @@ layer using a softmax function \cite{DeepLearning,LeCunn}.
 From the code, it may seem like the network also has a \texttt{Dropout} layer;
 however, dropout is not inherently part of the network, but rather a technique
 used to randomly drop units of the network during training in order to prevent
-overfitting of the model \cite{Droptout}.
+overfitting of the model \cite{Dropout}.
 
 \subsection{Training the network}
 
@@ -385,41 +385,43 @@ shared.
 
 \section{Conclusion}
 
-\section{Pending work}
+There are many flaws in the work conducted for this experiment, including time
+synchronization issues, the lack of a system for automating the process of
+collecting experimental data, having only a small amount of data to train our
+models, creating a model that does not take into account the fact that the state
+of context being shared is dynamic.
 
-Up until this point, our work has consisted of research, and more of it
-remains to be done; however, there are key steps that we need to follow through
-with in order to deliver results on the research:
+Time is a key ingredient of whether two devices share context or not, and hence
+time should be synchronized down to the level of milliseconds. Using a NTP would
+have been a have made our results more accurate, but it would be even better to
+develop a communication procotol that allows two devices to quickly reach
+consesus on a measure of synchronizity, whether by time, a nonce, or some kind
+of counter. Such a protocol does not need to be tied to hardware or sensors, and
+hence could be applied any time devices are trying to synchronize with each
+other.
 
-\begin{enumerate}
-\item Obtain a sensor with a gyroscope and accelerometer. None of the sensor at
-      our disposal contain a gyroscope, which is the center piece of
-      orientation-sensing algorithms. Therefore, it is imperative that we obtain
-      one soon, because using a new sensor might entail having to modify or
-      create drivers for the PowerDue.
-\item Compute the attitude of the PowerDue.
-\item Compute the attidue of a mobile phone.
-\item Correlate the readings from the PowerDue and mobile phone.
-\end{enumerate}
+We only collected 15 samples of data because it was very time consuming to
+collect them - it took us about 3 hours to collect 15 samples. In addition to
+being time consuming, it was error prone, given that most of it was done
+manually. In one case, we forgot to copy and paste the output from one of the
+experiments before proceeding to run the next experiment. Automating this
+process, for example, by having PowerDue collect samples for some time before
+sending them to the cloud, or an edge server, would allow us to collect more
+data in a more effective and accurate manner.
 
-Our plan is to run experiments in which we repeat steps 2 - 4 under different
-conditions, but in all the PowerDue and the mobile phone are stationary when the
-sensor data is collected:
-
-\begin{itemize}
-\item Both devices have the same orientation and are in the same context.
-\item Both devices are in the same context, but their orientations differ.
-\item Devices are not in the same context, but have the same orientation.
-\item Devices are not in the same context, and have different orientations.
-\end{itemize}
-
-To deliver useful results, we have to correlate the data between different
-devices, and define what it means for two devices to share context. Also note
-that we plan to correlate the data between the devices by doing the
-analysis on our PCs, but ideally it would be more useful to deploy the model
-on the PowerDue, perhaps a task for future work.
-
-\section{Conclusion}
+Devices that are bound to a location have a static shared context with other
+devices that are also bound near by; however, this is not a very interesting
+instance of devices sharing context, because such devices can be programmed to
+recognize that they share context. What's interesting about context being shared
+between devices, or not, is that it is more likely to be dynamic, with devices
+moving within and out of a state of shared context. Even devices that are bound
+to a location will experien a change of state, because other mobile devices may
+enter or leave their vicinity. Therefore, it would be more interesting and
+realistic to develop a model that takes this dynamic into account, and hence it
+would be more appropriate to use a different kind of neural network, such as an
+LSTM network, or to simply use a different technique that is more appropriate
+for time series and modelling state. To test such a model, it would be necessary
+to devise experiments where devices share from one state to the other.
 
 % References
 
