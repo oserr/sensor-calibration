@@ -15,6 +15,7 @@ to solve this problem.
 * `guidelines`: Project guidelines.
 * `gyro`: The PowerDue module used to collect readings from the MPU9250.
 * `madgwick`: Madgwick MATLAB algorithm scripts.
+    * `Example2.m`: Script to apply orientation transformation.
 * `milestone`: Project milestone report.
 * `mpu9250`: Git submodule for the git repo of the MPU9250 library.
 * `report`: The latex files for the final project report.
