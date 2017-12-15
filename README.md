@@ -11,6 +11,7 @@ data from multiple devices. Therefore, we explore sensor calibration techniques
 to solve this problem.
 
 ## Repo Info
+* `ProjectReport.pdf`: The final project report.
 * `data`: Contains data collected in experiments.
 * `guidelines`: Project guidelines.
 * `gyro`: The PowerDue module used to collect readings from the MPU9250.
