@@ -42,12 +42,12 @@ procedures on a set of localized wireless devices. The problem which prevents
 such a judicious use of sensors is the orientation of wireless devices. Sensors
 such as gyroscope and accelerometer are commonly found in wireless devices, but
 their readings make no sense until their orientations are the same. We plan to
-conduct controlled experiments to investigate how different environmental factors
-impact the accelerometer performance and how the best accuracy can be achieved
-in an appropriate condition range. Based on such comprehensive understanding, 
-we propose to develop a proof of concept which can be used to make a simple 
-challenge-response authentication protocol between a car and the mobile device, 
-using opportunistic calibration of the accelerometer.
+conduct controlled experiments to investigate how different environmental
+factors impact the accelerometer performance and how the best accuracy can be
+achieved in an appropriate condition range. Based on such comprehensive
+understanding, we propose to develop a proof of concept which can be used to
+make a simple challenge-response authentication protocol between a car and the
+mobile device, using opportunistic calibration of the accelerometer.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -79,83 +79,89 @@ the same, the devices are likely to exhibit similar patterns as a result of the
 magnetic disturbance caused by the magnetic strip. Two video cameras, despite
 having different points of view, might be able to determine that they share
 context on the basis that both of them detect an object with similar shape and
-color; for example, if one of the video cameras records an individual with a blue
-shirt walking toward it, and the other camera records an individual with a blue
-shirt walking away from it.
+color; for example, if one of the video cameras records an individual with a
+blue shirt walking toward it, and the other camera records an individual with a
+blue shirt walking away from it.
 
 There is a wide range of possibilities in how devices and sensors are used to
 determine context from a wide variety of physical stimuli, or how the scale of
 context is defined (e.g., school building vs a single room); however, we limit
 our research to the small context of a car, and to 3-dimensional orientation,
 acceleration, and magnetic sensor readings. Instead of relying on traditional
-methods (e.g, Kalman filter) to determine context from the type of sensors we are
-using, we employ a convolutional neural network, a popular technique for solving
-computer vison problems, to create a predictive model.
+methods (e.g, Kalman filter) to determine context from the type of sensors we
+are using, we employ a convolutional neural network, a popular technique for
+solving computer vison problems, to create a predictive model.
 
-The problem that we are trying to solve is one of device pairing in an automobile context. 
-For example, if you want to connect your mobile device to the Uber car that you are using 
-for your commute, you want an effortless way to pair your device to the car. This process 
-of pairing has to be secure from the driver's and customer's point of view. So an example 
-use-case can be, the new version of Uber app gives it's customer the luxury of listening 
-to their own songs while driving in an Uber. Uber does not want it's driver's to carry out 
-the burdensome task of pairing themselves, so in their application, they have introduced a 
-context-aware authentication protocol that lets the application running on customer's 
-mobile phone to get the fingerprints of the context observed by the car and compares it 
-to the fingerprint of context seen by the mobile. Based on the comparison the application 
-makes a decision whether the customer can pair his phone to the car or not. This is just 
-a simple application of the problem we aim to solve. There can be a plethora of applications 
-of context-aware authentication.
-
+The problem that we are trying to solve is one of device pairing in an
+automobile context.  For example, if you want to connect your mobile device to
+the Uber car that you are using for your commute, you want an effortless way to
+pair your device to the car. This process of pairing has to be secure from the
+driver's and customer's point of view. So an example use-case can be, the new
+version of Uber app gives it's customer the luxury of listening to their own
+songs while driving in an Uber. Uber does not want it's driver's to carry out
+the burdensome task of pairing themselves, so in their application, they have
+introduced a context-aware authentication protocol that lets the application
+running on customer's mobile phone to get the fingerprints of the context
+observed by the car and compares it to the fingerprint of context seen by the
+mobile. Based on the comparison the application makes a decision whether the
+customer can pair his phone to the car or not. This is just a simple application
+of the problem we aim to solve. There can be a plethora of applications of
+context-aware authentication.
 
 \section{Related Work}
 
-In this paper, we have come up with a proof of concept that helps in determining 
-the context of a device with respect to other device. The problem that we aimed 
-to solve was to make the sensor data of the two devices comparable using sensor 
+In this paper, we have come up with a proof of concept that helps in determining
+the context of a device with respect to other device. The problem that we aimed
+to solve was to make the sensor data of the two devices comparable using sensor
 reorientation.
 
-The initial motivation of solving the problem of sensor reorientation was proposed 
-in the paper: Design, Implementation and Evaluation of a Smartphone Position Discovery 
-Service for Accurate Context Sensing. This paper talks about the difficulties that 
-prevented the the large-scale proliferation of context-aware applications in the market. 
-A major barrier for it was poor accuracy \cite{Alanezi}.
-We address one of the key reasons for this poor accuracy, which is the impact of
-sensor orientation.
+The initial motivation of solving the problem of sensor reorientation was
+proposed in the paper: Design, Implementation and Evaluation of a Smartphone
+Position Discovery Service for Accurate Context Sensing. This paper talks about
+the difficulties that prevented the the large-scale proliferation of
+context-aware applications in the market. A major barrier for it was poor
+accuracy \cite{Alanezi}. We address one of the key reasons for this poor
+accuracy, which is the impact of sensor orientation.
 
-Devices have their sensors oriented in different positions. The paper first shows that
-smartphone positions significantly affect the values of the
+Devices have their sensors oriented in different positions. The paper first
+shows that smartphone positions significantly affect the values of the
 sensor data being collected by a context-aware application, and this in turn
 has a significant impact on the accuracy of the application \cite{Alanezi}.
 Next, it describes the design and prototype development of an orientation
 discovery service that accurately detects a sensor orientation. This service is
 based on the sensor data collected from carefully chosen sensors. Finally, the
 paper demonstrates that the accuracy of an existing context-aware service or
-application is significantly enhanced when running in conjunction with the proposed
-orientation discovery service. 
+application is significantly enhanced when running in conjunction with the
+proposed orientation discovery service.
 
-The motivation of our work was from Convoy: Physical context verification for vehicle platoon 
-\cite{Han}. This paper developed an authentication protocol for a vehicle platoon where the 
-convoy formed a network and shared continuous contextual fingerprints between the master and 
-other participants to give a confidence score used in authentication of the members of the 
-network. This protocol explicitly prevented platoon ghost attack, wherein an attacker spoofs 
-presence within a platoon to gain admission and subsequently execute malicious attacks. 
+The motivation of our work was from Convoy: Physical context verification for
+vehicle platoon \cite{Han}. This paper developed an authentication protocol for
+a vehicle platoon where the convoy formed a network and shared continuous
+contextual fingerprints between the master and other participants to give a
+confidence score used in authentication of the members of the network. This
+protocol explicitly prevented platoon ghost attack, wherein an attacker spoofs
+presence within a platoon to gain admission and subsequently execute malicious
+attacks.
 
-The other important work that we relied on was Use It Free: Instantly Knowing Your Phone Attitude 
-\cite{PhoneAttitude}. This paper helped us get a brief idea of the nuances involved in sensor 
-orientation. The logic that we finally applied for sensor reorientation was derived using the 
-concepts learned in this paper. This paper talks about identifying your phone's attitude using
-gyroscope and accelerometer using Madgwick algorithm. The goal was to find the orientation of 
-the device with respect to Earth's frame of reference. 
+The other important work that we relied on was Use It Free: Instantly Knowing
+Your Phone Attitude \cite{PhoneAttitude}. This paper helped us get a brief idea
+of the nuances involved in sensor orientation. The logic that we finally applied
+for sensor reorientation was derived using the concepts learned in this paper.
+This paper talks about identifying your phone's attitude using gyroscope and
+accelerometer using Madgwick algorithm. The goal was to find the orientation of
+the device with respect to Earth's frame of reference.
 
-Sensor orientation information is provided by euler angles and quaternions. Euler angles are 
-simple and intuitive, and they are simple for analysis and control. But, we do not use Euler 
-angles for getting the sensor orientation because they are limited by a phenomenon called 
-gimbal lock, which prevents them from measuring orientation when the pitch angle approaches
-+/- 90 degrees. We, therefore, use quaternions, which is a four-element vector that can be 
-used to encode any rotation in a 3D coordinate system. To use the Madgwick's algorithm 
-to find the euler angles and quaternion representation of the sensor data, we used a open 
-source Matlab library \cite{MadgwickCode}, which we further modified for sensor reorientation
-and displaying graphs of before and after sensor reorientation.
+Sensor orientation information is provided by euler angles and quaternions.
+Euler angles are simple and intuitive, and they are simple for analysis and
+control. But, we do not use Euler angles for getting the sensor orientation
+because they are limited by a phenomenon called gimbal lock, which prevents them
+from measuring orientation when the pitch angle approaches +/- 90 degrees. We,
+therefore, use quaternions, which is a four-element vector that can be used to
+encode any rotation in a 3D coordinate system. To use the Madgwick's algorithm
+to find the euler angles and quaternion representation of the sensor data, we
+used a open source Matlab library \cite{MadgwickCode}, which we further modified
+for sensor reorientation and displaying graphs of before and after sensor
+reorientation.
 
 To complete the work for this paper, we relied on multiple open source libraries
 to collect data, and to build a neural network architecture to generate a model
@@ -258,38 +264,59 @@ method of setting the time provided accuracy of within a second, allowing us to
 carry on with the experiments.
 
 \subsection{Madgwick algorithm}
-Madgwick provided a novel orientation filter applicable to tri-axis gyroscopes and 
-accelerometers. The filter uses quaternion representation instead of Euler angles 
-to prevent gimbal lock phenomenon. For sensor reorientation, we had to to use the 
-open source madgwick algorithm implementation to find to find the quaternion representation 
-of the two data sets. The methodology is explained in the following steps:
+
+Madgwick provided a novel orientation filter applicable to tri-axis gyroscopes
+and accelerometers. The filter uses quaternion representation instead of Euler
+angles to prevent gimbal lock phenomenon. For sensor reorientation, we had to to
+use the open source madgwick algorithm implementation to find to find the
+quaternion representation of the two data sets. The methodology is explained in
+the following steps:
+
 \begin{itemize}
 \item Import the data from a .mat file format and plot the sensor data.
-\item Process sensor data through the algorithm to find the quaternion representation.
+\item Process sensor data through the algorithm to find the quaternion
+      representation.
 \item Use this quaternion representation to find the relative orientation.
 \item Reorient the sensor data with respect to the relative orientation.
 \end{itemize}
 
-The basic logic of calculating the relative orientation was to divide the quaternion representations with respect to each other, shown in eq.1. In quaternion representation, you can also perform the multiplication of inverse in place of division, shown in eq.2. An inverse of a quaternion is also called it's conjugate. So in eq.3, you can see the conjugate of $quaternion1$ is multiplied to $quaternion$, because we want to find the orientation of $quaternion1$ with respect to $quaternion$. In eq.4 we get the reoriented quaternion representation of $quaternion1$.
+The basic logic of calculating the relative orientation was to divide the
+quaternion representations with respect to each other, shown in eq.1. In
+quaternion representation, you can also perform the multiplication of inverse in
+place of division, shown in eq.2. An inverse of a quaternion is also called its
+conjugate. So in eq.3, you can see the conjugate of $quaternion1$ is multiplied
+to $quaternion$, because we want to find the orientation of $quaternion1$ with
+respect to $quaternion$. In eq.4 we get the reoriented quaternion representation
+of $quaternion1$.
+
 \begin{align}
-  relative_or = (quaternion_1 / relative_or)\\
-    relative_or = (inverse(quaternion_1) * relative_or)\\
-  relative_or = quaternion_1.* quaternion\\
-    quaternion_1 = (quaternion_1.* relative_or)\\
-    euler=quaternion*(180/pi)
+  relative_or    &= (quaternion_1 / relative_or)\\
+    relative_or  &= (inverse(quaternion_1) * relative_or)\\
+  relative_or    &= quaternion_1.* quaternion\\
+    quaternion_1 &= (quaternion_1.* relative_or)\\
+    euler        &= quaternion*(180/pi)
 \end{align}
 
-Quaternions cannot be represented as a graph. Therefore, the quaternions are converted into euler angles using eq.5, just to show the graphical representation of sensor reoriented data.
+Quaternions cannot be represented as a graph. Therefore, the quaternions are
+converted into euler angles using eq.5, just to show the graphical
+representation of sensor reoriented data.
 
-Fig5 gives the graphical representation of the yaw, pitch and roll orientation in terms of euler angles before applying sensor reorientation.
+Figure~\ref{fig:nonoriented} gives the graphical representation of the yaw,
+pitch and roll orientation in terms of euler angles before applying sensor
+reorientation.
+
 \begin{figure}[!t]\centering
   \includegraphics[width=5.5cm]{nonoriented}
-  \caption{Euler Angles before reorientation.}\label{fig:fig4}
+  \caption{Euler Angles before reorientation.}\label{fig:nonoriented}
 \end{figure}
-Fig5 gives the graphical representation of the yaw, pitch and roll orientation in terms of euler angles after applying sensor reorientation.
+
+Figure~\ref{fig:oriented} gives the graphical representation of the yaw, pitch
+and roll orientation in terms of euler angles after applying sensor
+reorientation.
+
 \begin{figure}[!t]\centering
-  \includegraphics[width=5.5cm]{orientd}
-  \caption{Euler Angles after reorientation.}\label{fig:fig5}
+  \includegraphics[width=5.5cm]{oriented}
+  \caption{Euler Angles after reorientation.}\label{fig:orientation}
 \end{figure}
 
 \subsection{Experiments}
@@ -305,25 +332,29 @@ Fig5 gives the graphical representation of the yaw, pitch and roll orientation i
 \begin{enumerate}
 
 \subsections{Methodology}
-Our motivation for designing the experiments was to test different contextual environment 
-between two devices. We conducted three sets of experiments from which we collected data for 
-five iterations for each set of experiment. Each iteration of the experiment was for 90 seconds. 
-The reason for selecting three experiments was to introduce a clear pass case ($shared context$),
-clear fail case ($no shared context$) and a case where the context is shared but not at the same 
-point in time($Time-based context sharing$). The third experiment is very crucial from a security
-point-of-view, because it demonstrated the case of an adversary who is following your car in the
-same lane and sharing the same context, but since this shared context is not time-based, we 
-differentiate it from the context of the victim. We defined shared context to mean that both 
-devices, the PowerDue, and the mobile phone, were inside of the same car. The experiments were:
+
+Our motivation for designing the experiments was to test different contextual
+environment between two devices. We conducted three sets of experiments from
+which we collected data for five iterations for each set of experiment. Each
+iteration of the experiment was for 90 seconds. The reason for selecting three
+experiments was to introduce a clear pass case ($shared context$), clear fail
+case ($no shared context$) and a case where the context is shared but not at the
+same point in time($Time-based context sharing$). The third experiment is very
+crucial from a security point-of-view, because it demonstrated the case of an
+adversary who is following your car in the same lane and sharing the same
+context, but since this shared context is not time-based, we differentiate it
+from the context of the victim. We defined shared context to mean that both
+devices, the PowerDue, and the mobile phone, were inside of the same car. The
+experiments were:
 
 \begin{itemize}
 \item \textit{Shared context}. Drive vehicle with both devices inside of
       vechicle.
 \item \textit{No shared context}. Drive vehicle with PowerDue inside vehicle,
       while mobile phone is carried by pedestrian.
-\item \textit{Time-based context sharing}. Drive vehicle with PowerDue inside 
-vehicle, and drive another vehicle, following the first vehicle with mobile 
-phone inside it.
+\item \textit{Time-based context sharing}. Drive vehicle with PowerDue inside
+      vehicle, and drive another vehicle, following the first vehicle with
+      mobile phone inside it.
 \end{itemize}
 
 An essential ingredient of all the experiments was movement, in order to provide
@@ -511,8 +542,8 @@ instance of devices sharing context, because such devices can be programmed to
 recognize that they share context. What's interesting about context being shared
 between devices, or not, is that it is more likely to be dynamic, with devices
 moving within and out of a state of shared context. Even devices that are bound
-to a location will experience a change of state, because other mobile devices may
-enter or leave their vicinity. Therefore, it would be more interesting and
+to a location will experience a change of state, because other mobile devices
+may enter or leave their vicinity. Therefore, it would be more interesting and
 realistic to develop a model that takes this dynamic into account, and hence it
 would be more appropriate to use a different kind of neural network, such as an
 LSTM network, or to simply use a different technique that is more appropriate
