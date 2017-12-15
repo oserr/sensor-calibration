@@ -21,6 +21,9 @@
 \usepackage{epstopdf}
 \usepackage{pbox}
 
+\newcommand{\subparagraph}{}
+\usepackage{titlesec}
+
 \begin{document}
 \title{	ConAuth - context for authentication \\ (Dec. 2017)}
 
@@ -195,6 +198,7 @@ took the following approach:
 \item Modify the MPU9250 library to work with the PowerDue.
 \item Establish a clock on the PowerDue, to allow us to synchronize readings
       from the MPU9250 with readings from PowerSense.
+\item Applied the Madgwick algorithm.
 \item Run three experiments to collect data from the MPU9250 and PowerSense iOS
       app. See Figure~\ref{fig:fig2} and Figure~\ref{fig:fig3} for an example of
       the type of data collected with PowerSense.
@@ -268,9 +272,9 @@ carry on with the experiments.
 Madgwick provided a novel orientation filter applicable to tri-axis gyroscopes
 and accelerometers. The filter uses quaternion representation instead of Euler
 angles to prevent gimbal lock phenomenon. For sensor reorientation, we had to to
-use the open source madgwick algorithm implementation to find to find the
-quaternion representation of the two data sets. The methodology is explained in
-the following steps:
+use the open source madgwick algorithm implementation to find the quaternion
+representation of the two data sets. The methodology is explained in the
+following steps:
 
 \begin{itemize}
 \item Import the data from a .mat file format and plot the sensor data.
@@ -316,22 +320,23 @@ reorientation.
 
 \begin{figure}[!t]\centering
   \includegraphics[width=5.5cm]{oriented}
-  \caption{Euler Angles after reorientation.}\label{fig:orientation}
+  \caption{Euler Angles after reorientation.}\label{fig:oriented}
 \end{figure}
 
 \subsection{Experiments}
 
-\subsections{Apparatus}
+\subsubsection{Apparatus}
+
 \begin{enumerate}
-\item Nissan Altima
+\item Honda Accord
 \item Ford Lincoln
-\item Iphone with PowerSense
+\item iPhone with PowerSense
 \item Nexus 5 with ArduinoSense
 \item PowerDue board
 \item Timer
-\begin{enumerate}
+\end{enumerate}
 
-\subsections{Methodology}
+\subsubsection{Methodology}
 
 Our motivation for designing the experiments was to test different contextual
 environment between two devices. We conducted three sets of experiments from
@@ -339,7 +344,7 @@ which we collected data for five iterations for each set of experiment. Each
 iteration of the experiment was for 90 seconds. The reason for selecting three
 experiments was to introduce a clear pass case ($shared context$), clear fail
 case ($no shared context$) and a case where the context is shared but not at the
-same point in time($Time-based context sharing$). The third experiment is very
+same point in time ($Time-based context sharing$). The third experiment is very
 crucial from a security point-of-view, because it demonstrated the case of an
 adversary who is following your car in the same lane and sharing the same
 context, but since this shared context is not time-based, we differentiate it
@@ -359,13 +364,10 @@ experiments were:
 
 An essential ingredient of all the experiments was movement, in order to provide
 stimulus for the sensors, and hence our decision to carry the experiments while
-driving or walking. We repeated each experiment five times, and for each
-experiment trial collected about a minute's worth of readings from each device.
-
-The output of each experiment was a set of data files. PowerSense allowed us to
-email the readings of an experiment as a CSV file to ourselves. For PowerDue, we
-had to manually create a CSV file by copying the output from the serial console
-to the file.
+driving or walking. The output of each experiment was a set of data files.
+PowerSense allowed us to email the readings of an experiment as a CSV file to
+ourselves. For PowerDue, we had to manually create a CSV file by copying the
+output from the serial console to the file.
 
 \subsection{Aggregating data}
 
